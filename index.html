@@ -141,6 +141,10 @@
     const hash = await sha256(val);
     if (hash === PASS_HASH) {
       sessionStorage.setItem('sx_auth', 'true');
+      // Set ngrok backend URL by default
+      if (!localStorage.getItem('sx_backend_url')) {
+        localStorage.setItem('sx_backend_url', 'https://augitic-lyndsay-overflowingly.ngrok-free.dev');
+      }
       btn.textContent = 'Entering...';
       btn.style.pointerEvents = 'none';
       setTimeout(() => { window.location.href = 'pages/index.html'; }, 300);
