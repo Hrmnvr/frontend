@@ -1,0 +1,26 @@
+PROJECT STATUS LOG - SCHOLARX RECOVERY
+
+1. USER OBJECTIVE: Resolve PDF upload errors and finalize study mode features.
+
+2. TASKS COMPLETED:
+   - Fixed backend 500 error caused by 'MutableHeaders' pop() crash in security middleware.
+   - Enhanced error reporting by adding DEBUG=true support to show real traceback/errors to the client.
+   - Resolved SocketIO CORS issues in main.py.
+   - Fixed 'AuthenticatedUser' mock in test scripts to match actual constructor.
+   - Implemented 'Save to Library' button functionality (was a placeholder).
+   - Enabled real-time XP and Level tracking on Dashboard (was hardcoded 0).
+   - Renamed 'My Courses' tab to 'Notes' and added a persistent Library section.
+   - Fixed Library UI layout (spanned full width).
+   - Removed 'orderBy' from Firestore queries to avoid index requirement issues, switching to in-memory sorting.
+
+3. MISTAKES & ERRORS ENCOUNTERED:
+   - Middleware Crash: Used .pop() on a dict-like object that didn't support it, crashing the entire API.
+   - Hardcoded Stats: Left the dashboard showing 0 instead of fetching live values.
+   - Placeholder Buttons: UI had "Save to Library" buttons that did nothing.
+   - Layout Bug: Placed the Library inside a narrow grid column, making it look "messed up".
+   - Silence Failures: Used Firestore orderBy without an index, which sometimes causes silent failures in the browser SDK if not handled correctly.
+
+4. CURRENT STANDING:
+   - Infrastructure is verified working via test scripts.
+   - Front-end is instrumented with debug logs to track why notes might not be displaying.
+   - Pending verification of successful note generation flow in user environment.

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assessment Builder - ScholarX</title>
+<meta name="description" content="Create AI-powered worksheets, unit tests, quizzes, and revision sheets instantly."/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: { "primary": "#7c70ff", "background-light": "#f6f5f8", "background-dark": "#110f23", "surface-dark": "#1c1a33", "amber-accent": "#ffb020" },
+      fontFamily: { "display": ["Lexend", "sans-serif"] },
+      borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+    },
+  },
+}
+</script>
+<style>
+  ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.fade-in-up{animation:fadeInUp .4s ease-out both}
+  @keyframes spin-slow{100%{transform:rotate(360deg)}}.spin-slow{animation:spin-slow 2s linear infinite}
+  .glass{background:linear-gradient(135deg,rgba(28,26,51,.8),rgba(28,26,51,.4));backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.05);transition:all .3s ease}.glass:hover{border-color:rgba(124,112,255,.3);box-shadow:0 8px 32px rgba(124,112,255,.1)}
+  .pill-btn{transition:all .2s ease}.pill-btn.active{background:rgba(124,112,255,.15);border-color:rgba(124,112,255,.6);color:#fff}
+  .q-card{transition:all .3s ease}.q-card:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 font-display min-h-screen flex antialiased selection:bg-primary selection:text-white overflow-hidden">
+
+<!-- Sidebar -->
+<aside id="sidebar" class="w-64 h-screen hidden lg:flex flex-col border-r border-gray-200 dark:border-white/5 bg-white dark:bg-[#0d0b1a] shrink-0 sticky top-0 z-30">
+  <div class="h-20 flex items-center px-8">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/30">S</div>
+      <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">ScholarX</span>
+    </div>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors" href="teacher_dashboard.html"><span class="material-icons-round">dashboard</span>Dashboard</a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors" href="content_studio.html"><span class="material-icons-round">auto_stories</span>Content Studio</a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary dark:text-white font-medium transition-colors" href="assessment_builder.html"><span class="material-icons-round text-primary">quiz</span>Assessment Builder</a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors" href="#"><span class="material-icons-round">groups</span>Classrooms</a>
+    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors" href="#"><span class="material-icons-round">assignment</span>Assignments</a>
+  </nav>
+  <div class="p-4 border-t border-gray-200 dark:border-white/5">
+    <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-colors" href="#"><span class="material-icons-round">settings</span>Settings</a>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+  <header class="h-20 flex items-center justify-between px-6 lg:px-10 border-b border-gray-200 dark:border-white/5 bg-white/80 dark:bg-[#110f23]/80 backdrop-blur-md sticky top-0 z-20">
+    <button class="lg:hidden p-2 -ml-2 text-gray-500 hover:text-primary" onclick="document.getElementById('sidebar').classList.toggle('hidden')"><span class="material-icons-round">menu</span></button>
+    <div>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2"><span class="material-icons-round text-primary">quiz</span>Assessment Builder</h1>
+      <p class="text-xs text-gray-500 dark:text-gray-400">Create AI-powered worksheets, quizzes, and tests</p>
+    </div>
+    <div class="flex items-center gap-4 lg:gap-6 ml-auto">
+      <button class="relative p-2 text-gray-400 hover:text-white transition-colors"><span class="material-icons-round">notifications_none</span></button>
+      <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+        <div class="text-right hidden sm:block">
+          <p id="teacherName" class="text-sm font-semibold text-gray-900 dark:text-white leading-tight">Teacher</p>
+          <p id="teacherInfo" class="text-xs text-gray-500 dark:text-gray-400">Loading...</p>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-lg">T</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth">
+    <div class="max-w-7xl mx-auto space-y-8">
+
+      <!-- Tabs -->
+      <div class="flex gap-2 border-b border-white/5 pb-1">
+        <button id="tabCreate" onclick="switchTab('create')" class="px-5 py-2.5 text-sm font-medium rounded-t-xl border-b-2 border-primary text-white transition-colors">Create New</button>
+        <button id="tabHistory" onclick="switchTab('history')" class="px-5 py-2.5 text-sm font-medium rounded-t-xl border-b-2 border-transparent text-gray-400 hover:text-white transition-colors">My Assessments</button>
+      </div>
+
+      <!-- CREATE TAB -->
+      <div id="createView" class="fade-in-up">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <!-- Config Panel -->
+          <div class="lg:col-span-2 space-y-5">
+            <!-- Source Type Toggle -->
+            <div class="glass rounded-xl p-5">
+              <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2"><span class="material-icons-round text-primary text-lg">source</span>Source</h3>
+              <div class="flex gap-2">
+                <button id="srcTopic" onclick="setSource('topic')" class="pill-btn active flex-1 px-4 py-2.5 text-sm rounded-xl border border-white/10 text-gray-400 text-center">By Topic</button>
+                <button id="srcText" onclick="setSource('text')" class="pill-btn flex-1 px-4 py-2.5 text-sm rounded-xl border border-white/10 text-gray-400 text-center">Paste Text</button>
+              </div>
+            </div>
+
+            <!-- Topic Fields -->
+            <div id="topicFields" class="glass rounded-xl p-5 space-y-4">
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-gray-400 mb-1.5">Board *</label>
+                  <select id="aBoard" required class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:ring-2 focus:ring-primary/50">
+                    <option value="">Select</option><option value="cbse">CBSE</option><option value="icse">ICSE</option><option value="state">State Board</option><option value="ib">IB</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-gray-400 mb-1.5">Grade *</label>
+                  <select id="aGrade" required class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:ring-2 focus:ring-primary/50">
+                    <option value="">Select</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-400 mb-1.5">Subject *</label>
+                <input id="aSubject" type="text" placeholder="e.g. Physics" class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:ring-2 focus:ring-primary/50"/>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-400 mb-1.5">Chapter / Topic *</label>
+                <input id="aChapter" type="text" placeholder="e.g. Electromagnetic Induction" class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:ring-2 focus:ring-primary/50"/>
+              </div>
+            </div>
+
+            <!-- Text Field -->
+            <div id="textFields" class="glass rounded-xl p-5 hidden">
+              <label class="block text-xs font-medium text-gray-400 mb-1.5">Chapter Text *</label>
+              <textarea id="aChapterText" rows="8" placeholder="Paste your chapter content here..." class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:ring-2 focus:ring-primary/50 resize-none"></textarea>
+            </div>
+
+            <!-- Assessment Config -->
+            <div class="glass rounded-xl p-5 space-y-4">
+              <h3 class="text-sm font-semibold text-white mb-1 flex items-center gap-2"><span class="material-icons-round text-primary text-lg">tune</span>Configuration</h3>
+              <div>
+                <label class="block text-xs font-medium text-gray-400 mb-1.5">Title (optional)</label>
+                <input id="aTitle" type="text" placeholder="Auto-generated if empty" class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-500 focus:ring-2 focus:ring-primary/50"/>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-400 mb-2">Output Type</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="outputTypeGrid">
+                  <button type="button" data-val="worksheet" class="pill-btn active px-3 py-2 text-xs rounded-lg border border-white/10 text-gray-400 flex items-center gap-1.5 justify-center"><span class="material-icons-round text-sm">description</span>Worksheet</button>
+                  <button type="button" data-val="unit_test" class="pill-btn px-3 py-2 text-xs rounded-lg border border-white/10 text-gray-400 flex items-center gap-1.5 justify-center"><span class="material-icons-round text-sm">assignment</span>Unit Test</button>
+                  <button type="button" data-val="surprise_quiz" class="pill-btn px-3 py-2 text-xs rounded-lg border border-white/10 text-gray-400 flex items-center gap-1.5 justify-center"><span class="material-icons-round text-sm">bolt</span>Quiz</button>
+                  <button type="button" data-val="assignment" class="pill-btn px-3 py-2 text-xs rounded-lg border border-white/10 text-gray-400 flex items-center gap-1.5 justify-center"><span class="material-icons-round text-sm">task</span>Assignment</button>
+                  <button type="button" data-val="revision_sheet" class="pill-btn px-3 py-2 text-xs rounded-lg border border-white/10 text-gray-400 flex items-center gap-1.5 justify-center"><span class="material-icons-round text-sm">refresh</span>Revision</button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-medium text-gray-400 mb-1.5">Difficulty</label>
+                  <select id="aDifficulty" class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:ring-2 focus:ring-primary/50">
+                    <option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option><option value="mixed">Mixed</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-gray-400 mb-1.5">Questions</label>
+                  <input id="aNumQ" type="number" min="3" max="50" value="10" class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:ring-2 focus:ring-primary/50"/>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-400 mb-2">Question Types</label>
+                <div class="flex flex-wrap gap-2" id="qTypeGrid">
+                  <label class="pill-btn active px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-400 cursor-pointer has-[:checked]:border-primary/60 has-[:checked]:bg-primary/10 has-[:checked]:text-white"><input type="checkbox" name="qType" value="mcq" checked class="hidden"/>MCQ</label>
+                  <label class="pill-btn px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-400 cursor-pointer has-[:checked]:border-primary/60 has-[:checked]:bg-primary/10 has-[:checked]:text-white"><input type="checkbox" name="qType" value="true_false" class="hidden"/>True/False</label>
+                  <label class="pill-btn px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-400 cursor-pointer has-[:checked]:border-primary/60 has-[:checked]:bg-primary/10 has-[:checked]:text-white"><input type="checkbox" name="qType" value="fill_in_blanks" class="hidden"/>Fill Blanks</label>
+                  <label class="pill-btn px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-400 cursor-pointer has-[:checked]:border-primary/60 has-[:checked]:bg-primary/10 has-[:checked]:text-white"><input type="checkbox" name="qType" value="short_answer" checked class="hidden"/>Short Answer</label>
+                  <label class="pill-btn px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-400 cursor-pointer has-[:checked]:border-primary/60 has-[:checked]:bg-primary/10 has-[:checked]:text-white"><input type="checkbox" name="qType" value="long_answer" class="hidden"/>Long Answer</label>
+                  <label class="pill-btn px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-400 cursor-pointer has-[:checked]:border-primary/60 has-[:checked]:bg-primary/10 has-[:checked]:text-white"><input type="checkbox" name="qType" value="match_following" class="hidden"/>Match</label>
+                </div>
+              </div>
+            </div>
+
+            <button id="generateBtn" onclick="generateAssessment()" class="w-full py-3.5 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white font-semibold rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 flex items-center justify-center gap-2">
+              <span class="material-icons-round text-lg">auto_awesome</span>Generate Assessment
+            </button>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="lg:col-span-3">
+            <div id="previewPanel" class="glass rounded-xl p-6 min-h-[500px]">
+              <div id="emptyPreview" class="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                <div class="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center mb-5">
+                  <span class="material-icons-round text-primary text-5xl">quiz</span>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Create Your Assessment</h3>
+                <p class="text-sm text-gray-400 max-w-sm">Configure the settings on the left and click Generate. AI will create a complete assessment paper with questions, answers, and marking scheme.</p>
+              </div>
+              <div id="loadingPreview" class="hidden flex flex-col items-center justify-center h-full min-h-[400px] text-center">
+                <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <span class="material-icons-round text-primary text-4xl spin-slow">autorenew</span>
+                </div>
+                <h3 class="text-lg font-semibold text-white mb-2">Generating Assessment...</h3>
+                <p class="text-sm text-gray-400">This may take 15-30 seconds</p>
+              </div>
+              <div id="resultPreview" class="hidden"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORY TAB -->
+      <div id="historyView" class="hidden fade-in-up">
+        <div id="historyList" class="space-y-4">
+          <div class="glass rounded-xl p-8 text-center">
+            <span class="material-icons-round text-gray-500 text-4xl mb-2">history</span>
+            <p class="text-sm text-gray-400">Loading assessments...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assessment Detail View -->
+      <div id="detailView" class="hidden fade-in-up">
+        <button onclick="switchTab('history')" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors mb-6 group">
+          <span class="material-icons-round text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>Back
+        </button>
+        <div id="detailContent"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { API_BASE, FIREBASE_CONFIG } from '../js/config.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+let token = null;
+let sourceType = 'topic';
+let outputType = 'worksheet';
+
+async function getToken() { const u = auth.currentUser; return u ? await u.getIdToken() : null; }
+async function apiFetch(path, opts = {}) {
+  if (!token) token = await getToken();
+  const res = await fetch(`${API_BASE}${path}`, { ...opts, headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json', ...opts.headers } });
+  if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || `API error: ${res.status}`); }
+  return res.json();
+}
+
+const OUTPUT_LABELS = { worksheet: 'Worksheet', unit_test: 'Unit Test', surprise_quiz: 'Surprise Quiz', assignment: 'Assignment', revision_sheet: 'Revision Sheet' };
+const TYPE_ICONS = { mcq: 'radio_button_checked', true_false: 'check_circle', fill_in_blanks: 'text_fields', short_answer: 'short_text', long_answer: 'notes', match_following: 'compare_arrows' };
+
+// Source toggle
+window.setSource = function(type) {
+  sourceType = type;
+  document.getElementById('srcTopic').classList.toggle('active', type === 'topic');
+  document.getElementById('srcText').classList.toggle('active', type === 'text');
+  document.getElementById('topicFields').classList.toggle('hidden', type !== 'topic');
+  document.getElementById('textFields').classList.toggle('hidden', type !== 'text');
+};
+
+// Output type selection
+document.getElementById('outputTypeGrid').addEventListener('click', e => {
+  const btn = e.target.closest('[data-val]');
+  if (!btn) return;
+  document.querySelectorAll('#outputTypeGrid .pill-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  outputType = btn.dataset.val;
+});
+
+// Tab switch
+window.switchTab = function(tab) {
+  document.getElementById('createView').classList.toggle('hidden', tab !== 'create');
+  document.getElementById('historyView').classList.toggle('hidden', tab !== 'history');
+  document.getElementById('detailView').classList.add('hidden');
+  document.getElementById('tabCreate').classList.toggle('border-primary', tab === 'create');
+  document.getElementById('tabCreate').classList.toggle('text-white', tab === 'create');
+  document.getElementById('tabCreate').classList.toggle('border-transparent', tab !== 'create');
+  document.getElementById('tabCreate').classList.toggle('text-gray-400', tab !== 'create');
+  document.getElementById('tabHistory').classList.toggle('border-primary', tab === 'history');
+  document.getElementById('tabHistory').classList.toggle('text-white', tab === 'history');
+  document.getElementById('tabHistory').classList.toggle('border-transparent', tab !== 'history');
+  document.getElementById('tabHistory').classList.toggle('text-gray-400', tab !== 'history');
+  if (tab === 'history') loadHistory();
+};
+
+// Generate
+window.generateAssessment = async function() {
+  const qTypes = Array.from(document.querySelectorAll('input[name="qType"]:checked')).map(c => c.value);
+  if (qTypes.length === 0) { alert('Select at least one question type.'); return; }
+
+  const body = {
+    source_type: sourceType,
+    output_type: outputType,
+    question_types: qTypes,
+    num_questions: parseInt(document.getElementById('aNumQ').value) || 10,
+    difficulty: document.getElementById('aDifficulty').value,
+    title: document.getElementById('aTitle').value || undefined,
+  };
+
+  if (sourceType === 'topic') {
+    body.board = document.getElementById('aBoard').value;
+    body.grade = document.getElementById('aGrade').value;
+    body.subject = document.getElementById('aSubject').value;
+    body.chapter = document.getElementById('aChapter').value;
+    if (!body.board || !body.grade || !body.subject || !body.chapter) { alert('Fill in all topic fields.'); return; }
+  } else {
+    body.chapter_text = document.getElementById('aChapterText').value;
+    if (!body.chapter_text || body.chapter_text.length < 20) { alert('Provide sufficient chapter text.'); return; }
+  }
+
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="material-icons-round text-lg spin-slow">autorenew</span>Generating...';
+  document.getElementById('emptyPreview').classList.add('hidden');
+  document.getElementById('resultPreview').classList.add('hidden');
+  document.getElementById('loadingPreview').classList.remove('hidden');
+
+  try {
+    const result = await apiFetch('/assessments/generate', { method: 'POST', body: JSON.stringify(body) });
+    renderResult(result);
+  } catch (err) {
+    alert('Generation failed: ' + err.message);
+    document.getElementById('loadingPreview').classList.add('hidden');
+    document.getElementById('emptyPreview').classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-icons-round text-lg">auto_awesome</span>Generate Assessment';
+  }
+};
+
+function renderResult(a) {
+  document.getElementById('loadingPreview').classList.add('hidden');
+  const el = document.getElementById('resultPreview');
+  el.classList.remove('hidden');
+  el.innerHTML = buildAssessmentHTML(a, true);
+}
+
+function buildAssessmentHTML(a, showAnswers) {
+  const questions = (a.questions || []).map((q, i) => {
+    const icon = TYPE_ICONS[q.question_type] || 'help';
+    let optionsHtml = '';
+    if (q.options && q.options.length) {
+      optionsHtml = `<div class="mt-3 space-y-1.5">${q.options.map((o, oi) => {
+        const isCorrect = showAnswers && q.correct_answer && q.correct_answer.toLowerCase() === o.toLowerCase();
+        return `<div class="flex items-center gap-2 px-3 py-2 rounded-lg ${isCorrect ? 'bg-green-500/10 border border-green-500/30' : 'bg-white/5 border border-white/5'}"><span class="text-xs font-bold ${isCorrect ? 'text-green-400' : 'text-gray-500'} w-5">${String.fromCharCode(65+oi)}.</span><span class="text-sm ${isCorrect ? 'text-green-300' : 'text-gray-300'}">${o}</span>${isCorrect ? '<span class="material-icons-round text-green-400 text-sm ml-auto">check</span>' : ''}</div>`;
+      }).join('')}</div>`;
+    }
+    let matchHtml = '';
+    if (q.match_pairs && q.match_pairs.length) {
+      matchHtml = `<div class="mt-3 grid grid-cols-2 gap-2">${q.match_pairs.map(p => `<div class="px-3 py-2 bg-white/5 rounded-lg text-sm text-gray-300 border border-white/5">${p.left || p.term || ''}</div><div class="px-3 py-2 bg-primary/5 rounded-lg text-sm text-gray-300 border border-primary/10">${p.right || p.match || ''}</div>`).join('')}</div>`;
+    }
+    let answerHtml = '';
+    if (showAnswers && q.correct_answer && !q.options) {
+      answerHtml = `<div class="mt-3 px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20"><span class="text-xs font-semibold text-green-400">Answer: </span><span class="text-sm text-green-300">${q.correct_answer}</span></div>`;
+    }
+    let explainHtml = '';
+    if (showAnswers && q.explanation) {
+      explainHtml = `<div class="mt-2 px-3 py-2 rounded-lg bg-blue-500/5 border border-blue-500/10"><span class="text-xs text-blue-400">${q.explanation}</span></div>`;
+    }
+    return `<div class="q-card bg-white/[0.03] border border-white/5 rounded-xl p-5 mb-3">
+      <div class="flex items-start gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5"><span class="text-xs font-bold text-primary">${i+1}</span></div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-1"><span class="material-icons-round text-gray-500 text-sm">${icon}</span><span class="text-[10px] uppercase tracking-wider text-gray-500 font-medium">${q.question_type.replace(/_/g,' ')}</span><span class="ml-auto text-xs text-gray-500">${q.marks} mark${q.marks>1?'s':''}</span>${q.bloom_level ? `<span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400">${q.bloom_level}</span>` : ''}</div>
+          <p class="text-sm text-white leading-relaxed">${q.question_text}</p>
+          ${optionsHtml}${matchHtml}${answerHtml}${explainHtml}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="mb-6 pb-4 border-b border-white/5">
+    <div class="flex items-start justify-between gap-4 flex-wrap">
+      <div><h2 class="text-xl font-bold text-white mb-1">${a.title || 'Assessment'}</h2>
+        <div class="flex flex-wrap gap-2 text-xs text-gray-400">
+          ${a.board ? `<span class="px-2 py-1 rounded bg-white/5">${a.board}</span>` : ''}
+          ${a.grade ? `<span class="px-2 py-1 rounded bg-white/5">Class ${a.grade}</span>` : ''}
+          ${a.subject ? `<span class="px-2 py-1 rounded bg-white/5">${a.subject}</span>` : ''}
+          <span class="px-2 py-1 rounded bg-primary/10 text-primary">${OUTPUT_LABELS[a.output_type] || a.output_type}</span>
+        </div>
+      </div>
+      <div class="flex gap-4 text-center">
+        <div><p class="text-xl font-bold text-white">${a.total_questions}</p><p class="text-[10px] text-gray-500 uppercase">Questions</p></div>
+        <div><p class="text-xl font-bold text-white">${a.total_marks}</p><p class="text-[10px] text-gray-500 uppercase">Marks</p></div>
+        ${a.duration_minutes ? `<div><p class="text-xl font-bold text-white">${a.duration_minutes}</p><p class="text-[10px] text-gray-500 uppercase">Minutes</p></div>` : ''}
+      </div>
+    </div>
+    ${a.instructions ? `<div class="mt-4 p-3 rounded-lg bg-amber-accent/5 border border-amber-accent/20 text-xs text-amber-200/80"><span class="material-icons-round text-amber-accent text-sm align-middle mr-1">info</span>${a.instructions}</div>` : ''}
+  </div>
+  <div class="flex items-center gap-3 mb-4">
+    <button onclick="toggleAnswers()" id="toggleAnswersBtn" class="text-xs px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-colors flex items-center gap-1"><span class="material-icons-round text-sm">visibility</span>Toggle Answers</button>
+    <button onclick="printAssessment()" class="text-xs px-3 py-1.5 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-colors flex items-center gap-1"><span class="material-icons-round text-sm">print</span>Print</button>
+  </div>
+  ${questions}`;
+}
+
+let showingAnswers = true;
+let lastResult = null;
+
+window.toggleAnswers = function() {
+  showingAnswers = !showingAnswers;
+  if (lastResult) {
+    const el = document.getElementById('resultPreview');
+    if (!el.classList.contains('hidden')) el.innerHTML = buildAssessmentHTML(lastResult, showingAnswers);
+  }
+};
+
+window.printAssessment = function() { window.print(); };
+
+// Override renderResult to save ref
+const _origRenderResult = renderResult;
+function renderResultWrapped(a) {
+  lastResult = a;
+  showingAnswers = true;
+  _origRenderResult(a);
+}
+// Patch
+window.generateAssessment = (function(orig) {
+  return async function() {
+    const qTypes = Array.from(document.querySelectorAll('input[name="qType"]:checked')).map(c => c.value);
+    if (qTypes.length === 0) { alert('Select at least one question type.'); return; }
+    const body = { source_type: sourceType, output_type: outputType, question_types: qTypes, num_questions: parseInt(document.getElementById('aNumQ').value) || 10, difficulty: document.getElementById('aDifficulty').value, title: document.getElementById('aTitle').value || undefined };
+    if (sourceType === 'topic') { body.board = document.getElementById('aBoard').value; body.grade = document.getElementById('aGrade').value; body.subject = document.getElementById('aSubject').value; body.chapter = document.getElementById('aChapter').value; if (!body.board||!body.grade||!body.subject||!body.chapter){alert('Fill all topic fields.');return;} }
+    else { body.chapter_text = document.getElementById('aChapterText').value; if (!body.chapter_text||body.chapter_text.length<20){alert('Provide sufficient text.');return;} }
+    const btn=document.getElementById('generateBtn');btn.disabled=true;btn.innerHTML='<span class="material-icons-round text-lg spin-slow">autorenew</span>Generating...';
+    document.getElementById('emptyPreview').classList.add('hidden');document.getElementById('resultPreview').classList.add('hidden');document.getElementById('loadingPreview').classList.remove('hidden');
+    try { const r = await apiFetch('/assessments/generate',{method:'POST',body:JSON.stringify(body)}); renderResultWrapped(r); }
+    catch(e){ alert('Failed: '+e.message);document.getElementById('loadingPreview').classList.add('hidden');document.getElementById('emptyPreview').classList.remove('hidden'); }
+    finally{ btn.disabled=false;btn.innerHTML='<span class="material-icons-round text-lg">auto_awesome</span>Generate Assessment'; }
+  };
+})();
+
+// History
+async function loadHistory() {
+  const el = document.getElementById('historyList');
+  try {
+    const data = await apiFetch('/assessments/');
+    const items = data.assessments || [];
+    if (items.length === 0) {
+      el.innerHTML = `<div class="glass rounded-xl p-10 text-center"><div class="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center mb-4"><span class="material-icons-round text-primary text-3xl">quiz</span></div><h3 class="text-lg font-semibold text-white mb-2">No assessments yet</h3><p class="text-sm text-gray-400">Create your first assessment to see it here.</p></div>`;
+      return;
+    }
+    el.innerHTML = items.map(a => {
+      const date = a.created_at ? new Date(a.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '';
+      return `<div class="glass rounded-xl p-5 cursor-pointer" onclick="viewAssessment('${a.assessment_id}')">
+        <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"><span class="material-icons-round text-primary text-xl">description</span></div>
+        <div class="flex-1 min-w-0"><h4 class="text-white font-medium truncate">${a.title||'Untitled'}</h4><div class="flex flex-wrap gap-2 mt-1 text-xs text-gray-500">${a.board?`<span>${a.board}</span>`:''} ${a.subject?`<span>• ${a.subject}</span>`:''}<span>• ${OUTPUT_LABELS[a.output_type]||a.output_type}</span><span>• ${a.total_questions}Q / ${a.total_marks}M</span></div></div>
+        <div class="text-right shrink-0"><p class="text-xs text-gray-500">${date}</p><button onclick="event.stopPropagation();deleteAssessment('${a.assessment_id}')" class="mt-2 text-xs text-red-400 hover:text-red-300 flex items-center gap-1 ml-auto"><span class="material-icons-round text-sm">delete</span></button></div></div></div>`;
+    }).join('');
+  } catch(e) { el.innerHTML = `<div class="glass rounded-xl p-6 text-center text-red-400"><p>Failed to load: ${e.message}</p></div>`; }
+}
+
+window.viewAssessment = async function(id) {
+  try {
+    const a = await apiFetch(`/assessments/${id}?show_answers=true`);
+    document.getElementById('createView').classList.add('hidden');
+    document.getElementById('historyView').classList.add('hidden');
+    document.getElementById('detailView').classList.remove('hidden');
+    document.getElementById('detailContent').innerHTML = `<div class="glass rounded-xl p-6">${buildAssessmentHTML(a, true)}</div>`;
+    lastResult = a;
+  } catch(e) { alert('Failed to load: ' + e.message); }
+};
+
+window.deleteAssessment = async function(id) {
+  if (!confirm('Delete this assessment?')) return;
+  try { await apiFetch(`/assessments/${id}`,{method:'DELETE'}); loadHistory(); } catch(e) { alert(e.message); }
+};
+
+// Init
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = 'scholarx_sign_in.html'; return; }
+  token = await user.getIdToken();
+
+  // Load profile from Firestore
+  try {
+    const docSnap = await getDoc(doc(db, 'users', user.uid));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      document.getElementById('teacherName').textContent = data.displayName || user.displayName || 'Teacher';
+      document.getElementById('teacherInfo').textContent = user.email || '';
+      // Pre-fill board/grade from profile
+      const boardSel = document.getElementById('aBoard');
+      const gradeSel = document.getElementById('aGrade');
+      if (boardSel && data.board) boardSel.value = data.board;
+      if (gradeSel && data.grade) gradeSel.value = data.grade;
+    } else {
+      document.getElementById('teacherName').textContent = user.displayName || 'Teacher';
+      document.getElementById('teacherInfo').textContent = user.email || '';
+    }
+  } catch (e) {
+    document.getElementById('teacherName').textContent = user.displayName || 'Teacher';
+    document.getElementById('teacherInfo').textContent = user.email || '';
+  }
+
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('id')) { switchTab('history'); setTimeout(() => viewAssessment(p.get('id')), 500); }
+});
+</script>
+</body>
+</html>

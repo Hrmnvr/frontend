@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teacher Dashboard - ScholarX</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../styles/shared.css"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#7c70ff",
+        "background-light": "#f6f5f8",
+        "background-dark": "#110f23",
+        "surface-dark": "#1c1a33",
+        "amber-accent": "#ffb020",
+      },
+      fontFamily: { "display": ["Lexend", "sans-serif"] },
+      borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+      backgroundImage: { 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))' }
+    },
+  },
+}
+</script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 font-display min-h-screen flex antialiased selection:bg-primary selection:text-white overflow-hidden">
+
+<!-- Sidebar (injected by JS) -->
+<aside class="w-64 h-screen hidden lg:flex flex-col border-r border-gray-200 dark:border-white/5 bg-white dark:bg-[#0d0b1a] shrink-0 sticky top-0 z-30"></aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+  <!-- Header -->
+  <header class="h-20 flex items-center justify-between px-6 lg:px-10 border-b border-gray-200 dark:border-white/5 bg-white/80 dark:bg-[#110f23]/80 backdrop-blur-md sticky top-0 z-20">
+    <button class="lg:hidden p-2 -ml-2 text-gray-500 hover:text-primary" data-sidebar-toggle>
+      <span class="material-icons-round">menu</span>
+    </button>
+    <div>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-white">Teacher Dashboard</h1>
+      <p class="text-xs text-gray-500 dark:text-gray-400" id="welcomeText">Welcome back! Here's your overview.</p>
+    </div>
+    <div class="flex items-center gap-4 lg:gap-6 ml-auto">
+      <button class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
+        <span class="material-icons-round">notifications_none</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+      </button>
+      <div class="flex items-center gap-3 pl-4 border-l border-white/10" id="profileDropdownTrigger">
+        <div class="text-right hidden sm:block">
+          <p id="teacherName" class="text-sm font-semibold text-gray-900 dark:text-white leading-tight">Teacher</p>
+          <p id="teacherInfo" class="text-xs text-gray-500 dark:text-gray-400">Loading...</p>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+          <span id="userInitials">T</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth">
+    <div class="max-w-7xl mx-auto space-y-8">
+      <!-- ... rest of the content stays same ... -->
+
+  <!-- Content -->
+  <div class="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth">
+    <div class="max-w-7xl mx-auto space-y-8">
+
+      <!-- Stats Cards -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+              <span class="material-icons-round text-primary text-2xl">groups</span>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white" id="statClassrooms">0</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Classrooms</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+              <span class="material-icons-round text-green-500 text-2xl">people</span>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white" id="statStudents">0</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Total Students</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-accent/10 flex items-center justify-center">
+              <span class="material-icons-round text-amber-accent text-2xl">assignment</span>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white" id="statAssignments">0</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Assignments</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+              <span class="material-icons-round text-purple-500 text-2xl">auto_stories</span>
+            </div>
+            <div>
+              <p class="text-2xl font-bold text-gray-900 dark:text-white" id="statProjects">0</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Studio Projects</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <a href="content_studio.html" class="group bg-gradient-to-br from-primary/5 to-purple-500/5 border border-primary/20 rounded-xl p-6 hover:border-primary/50 transition-all cursor-pointer">
+            <div class="flex items-center gap-4 mb-3">
+              <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <span class="material-icons-round text-primary">auto_stories</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 dark:text-white">Content Studio</h3>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Upload textbooks and generate lesson plans, student notes, and more.</p>
+          </a>
+          <a href="assessment_builder.html" class="group bg-gradient-to-br from-green-500/5 to-emerald-500/5 border border-green-500/20 rounded-xl p-6 hover:border-green-500/50 transition-all cursor-pointer">
+            <div class="flex items-center gap-4 mb-3">
+              <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                <span class="material-icons-round text-green-500">quiz</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 dark:text-white">Assessment Builder</h3>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Create worksheets, unit tests, quizzes, and revision sheets instantly.</p>
+          </a>
+          <a href="#" class="group bg-gradient-to-br from-amber-500/5 to-orange-500/5 border border-amber-500/20 rounded-xl p-6 hover:border-amber-500/50 transition-all cursor-pointer" onclick="showCreateClassroom()">
+            <div class="flex items-center gap-4 mb-3">
+              <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                <span class="material-icons-round text-amber-500">add_circle</span>
+              </div>
+              <h3 class="font-semibold text-gray-900 dark:text-white">Create Classroom</h3>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Set up a new classroom and invite students with a join code.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Recent Classrooms -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Your Classrooms</h2>
+        </div>
+        <div id="classroomsList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-6 text-center">
+            <span class="material-icons-round text-gray-400 text-4xl mb-2">groups</span>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Loading classrooms...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Assessments -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Assessments</h2>
+          <a href="assessment_builder.html" class="text-sm text-primary hover:underline">Create New</a>
+        </div>
+        <div id="assessmentsList" class="space-y-3">
+          <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-6 text-center">
+            <span class="material-icons-round text-gray-400 text-4xl mb-2">quiz</span>
+            <p class="text-sm text-gray-500 dark:text-gray-400">No assessments yet. Create your first one!</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script type="module">
+import { initAuth, loadUserProfile, apiCall, auth, db } from '../js/auth.js';
+import { renderSidebar, setupProfileDropdown } from '../js/sidebar.js';
+import { showToast, setButtonLoading } from '../js/validation.js';
+
+// Auth + Data Loading
+initAuth(async (user) => {
+  // Render Sidebar
+  renderSidebar('teacher', 'teacher_dashboard.html');
+  
+  // Profile dropdown
+  setupProfileDropdown(user);
+
+  // Load User Profile Data
+  const userData = await loadUserProfile(user);
+  if (userData) {
+    const welcome = document.getElementById('welcomeText');
+    if (welcome) {
+       const firstName = (userData.displayName || user.displayName || 'Teacher').split(' ')[0];
+       welcome.textContent = `Welcome back, ${firstName}! Here's your overview.`;
+    }
+  }
+
+  loadDashboard();
+});
+
+async function loadDashboard() {
+  try {
+    // Load classrooms
+    const classroomsData = await apiCall('/classrooms/');
+    const classrooms = classroomsData.classrooms || [];
+    const statClassrooms = document.getElementById('statClassrooms');
+    if (statClassrooms) statClassrooms.textContent = classrooms.length;
+
+    let totalStudents = 0;
+    const container = document.getElementById('classroomsList');
+
+    if (!container) return;
+
+    if (classrooms.length === 0) {
+      container.innerHTML = `
+        <div class="bg-white dark:bg-surface-dark/50 border border-dashed border-gray-300 dark:border-white/10 rounded-xl p-8 text-center col-span-full">
+          <span class="material-icons-round text-gray-400 text-5xl mb-3">groups</span>
+          <p class="text-gray-500 dark:text-gray-400 mb-4">No classrooms yet</p>
+          <button onclick="showCreateClassroom()" class="px-6 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium rounded-lg transition-colors">Create Classroom</button>
+        </div>`;
+    } else {
+      container.innerHTML = classrooms.map(c => {
+        totalStudents += c.student_count || 0;
+        return `
+        <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-5 hover:border-primary/30 transition-colors">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-semibold text-gray-900 dark:text-white truncate">${c.name}</h3>
+            <span class="px-2 py-1 text-[10px] bg-primary/10 text-primary rounded-full font-mono">${c.join_code}</span>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">${c.subject || ''} ${c.grade ? '- Class ' + c.grade : ''}</p>
+          <div class="flex items-center gap-2 text-xs text-gray-400">
+            <span class="material-icons-round text-sm">people</span>
+            <span>${c.student_count || 0} students</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    const statStudents = document.getElementById('statStudents');
+    if (statStudents) statStudents.textContent = totalStudents;
+
+    // Load assessments
+    try {
+      const assessData = await apiCall('/assessments/');
+      const assessments = assessData.assessments || [];
+      const statAssignments = document.getElementById('statAssignments');
+      if (statAssignments) statAssignments.textContent = assessments.length;
+
+      const assessContainer = document.getElementById('assessmentsList');
+      if (assessContainer && assessments.length > 0) {
+        assessContainer.innerHTML = assessments.slice(0, 5).map(a => `
+          <div class="bg-white dark:bg-surface-dark/50 border border-gray-200 dark:border-white/5 rounded-xl p-4 flex items-center justify-between hover:border-primary/30 transition-colors">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <span class="material-icons-round text-primary text-xl">description</span>
+              </div>
+              <div>
+                <h4 class="font-medium text-sm text-gray-900 dark:text-white">${a.title}</h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400">${a.output_type.replace('_', ' ')} | ${a.total_questions} questions | ${a.total_marks} marks</p>
+              </div>
+            </div>
+            <a href="assessment_builder.html?id=${a.assessment_id}" class="text-xs text-primary hover:underline">View</a>
+          </div>
+        `).join('');
+      }
+    } catch (e) {
+      console.log('Assessments not loaded:', e);
+    }
+
+    // Load studio projects count
+    try {
+      const studioData = await apiCall('/studio/projects');
+      const statProjects = document.getElementById('statProjects');
+      if (statProjects) statProjects.textContent = (studioData.projects || []).length;
+    } catch (e) {
+      console.log('Studio not loaded:', e);
+    }
+
+  } catch (err) {
+    console.error('Dashboard load error:', err);
+  }
+}
+
+// Expose for onclick
+window.showCreateClassroom = function() {
+  showToast('Create Classroom feature is coming soon to the UI!', 'info');
+};
+</script>
+</body>
+</html>

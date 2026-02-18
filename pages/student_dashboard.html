@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Dashboard - ScholarX</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../styles/shared.css"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#7c70ff",
+        "background-light": "#f6f5f8",
+        "background-dark": "#110f23",
+        "surface-dark": "#1c1a33",
+        "amber-accent": "#ffb020",
+      },
+      fontFamily: { "display": ["Lexend", "sans-serif"] },
+      borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+      backgroundImage: { 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))' }
+    },
+  },
+}
+</script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 font-display min-h-screen flex antialiased selection:bg-primary selection:text-white overflow-hidden">
+
+<!-- Sidebar (injected by JS) -->
+<aside class="w-64 h-screen hidden lg:flex flex-col border-r border-gray-200 dark:border-white/5 bg-white dark:bg-[#0d0b1a] shrink-0 sticky top-0 z-30"></aside>
+
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative" role="main">
+<header class="h-20 flex items-center justify-between px-6 lg:px-10 border-b border-gray-200 dark:border-white/5 bg-white/80 dark:bg-[#110f23]/80 backdrop-blur-md sticky top-0 z-20">
+<button class="lg:hidden p-2 -ml-2 text-gray-500 hover:text-primary" aria-label="Toggle navigation menu" data-sidebar-toggle>
+<span class="material-icons-round">menu</span>
+</button>
+<div class="hidden md:flex items-center w-full max-w-xl mx-auto lg:mx-0">
+<div class="relative w-full group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary material-icons-round text-xl pointer-events-none transition-transform group-focus-within:scale-110">auto_awesome</span>
+<input class="w-full pl-12 pr-4 py-3 bg-gray-100 dark:bg-surface-dark/50 border-none rounded-full text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-inner" placeholder="Ask ScholarX AI to summarize a topic..." type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<span class="text-[10px] bg-white/10 px-2 py-1 rounded text-gray-400 border border-white/5">⌘ K</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 lg:gap-6 ml-auto">
+<button class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
+<span class="material-icons-round">notifications_none</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-white/10">
+<div class="text-right hidden sm:block">
+<p id="studentNameDisplay" class="text-sm font-semibold text-gray-900 dark:text-white leading-tight">Student</p>
+<p id="studentGradeDisplay" class="text-xs text-gray-500 dark:text-gray-400">Loading...</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+<span id="studentInitials" class="material-icons-round">person</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth">
+<div class="max-w-7xl mx-auto space-y-8">
+
+<!-- Greeting + XP -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-end">
+<div class="lg:col-span-2">
+<h1 id="greetingPrefix" class="text-3xl font-light text-gray-400 mb-1">Hello, <span id="greetingNameDisplay" class="font-semibold text-white">Student</span></h1>
+<p class="text-gray-500 text-sm mb-6">Ready to learn something new today?</p>
+<div class="bg-surface-dark rounded-xl p-5 border border-white/5 relative overflow-hidden group">
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/20 blur-3xl rounded-full pointer-events-none group-hover:bg-primary/30 transition-all duration-700"></div>
+<div class="flex items-center justify-between mb-3 relative z-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
+<span class="material-icons-round text-lg">military_tech</span>
+</div>
+<div>
+<h3 id="levelDisplay" class="font-bold text-white text-lg leading-tight">Level 1 Scholar</h3>
+<p class="text-xs text-gray-400">Start learning to earn rewards!</p>
+</div>
+</div>
+<span id="xpDisplay" class="text-primary font-bold font-mono">0 / 500 XP</span>
+</div>
+<div class="w-full bg-gray-700/30 rounded-full h-3 relative z-10 overflow-hidden">
+<div id="xpProgressBar" class="bg-gradient-to-r from-primary to-purple-400 h-3 rounded-full w-[0%] shadow-[0_0_15px_rgba(124,112,255,0.6)] relative transition-all duration-1000"></div>
+</div>
+</div>
+</div>
+<div class="h-full">
+<div class="h-full bg-gradient-to-br from-surface-dark to-surface-dark/50 rounded-xl p-5 border border-white/5 flex flex-col justify-center relative overflow-hidden">
+<img alt="Abstract geometric shapes background" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlOykSNXZirvtwZ6ed1iJg8mMJRgUH2niwzqFhLaM074rTAB-yiVN0i0mQUjIXYg0Zk3Flnjw33IvE1moZWyYVBVSG2QRw41pRfdc8cXX7iPX3GQFzAekKVJ-l91fTUbOQfbNpecoaU4873Du5B30u6eWMJdMT1yqg1jhAAnaJZtW9ROEBLANUz4uj-H53ZYbky8X-rfJmX0XrAyUMvWwKwUhlZAY9eyGTyIYL_edEOcx-3dXRBSk82OtNUay_hL4Qs6WVa5JerM72"/>
+<span class="text-primary text-4xl font-serif absolute top-4 left-4 opacity-20">"</span>
+<p class="text-gray-300 italic text-sm relative z-10 text-center px-4">"Education is the most powerful weapon which you can use to change the world."</p>
+<p class="text-xs text-gray-500 text-center mt-3 relative z-10">— Nelson Mandela</p>
+</div>
+</div>
+</section>
+
+<!-- Stats -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+<div class="bg-surface-dark p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-blue-500/10 rounded-xl text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all">
+<span class="material-icons-round text-2xl">auto_stories</span>
+</div>
+</div>
+<h4 id="notesCountDisplay" class="text-4xl font-bold text-white mb-1">0</h4>
+<p class="text-gray-400 text-sm">Notes Generated</p>
+</div>
+<div class="bg-surface-dark p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary/10 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-icons-round text-2xl">check_circle</span>
+</div>
+</div>
+<h4 id="lessonsCountDisplay" class="text-4xl font-bold text-white mb-1">0</h4>
+<p class="text-gray-400 text-sm">Lessons Completed</p>
+</div>
+<div class="bg-surface-dark p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-pink-500/10 rounded-xl text-pink-400 group-hover:bg-pink-500 group-hover:text-white transition-all">
+<span class="material-icons-round text-2xl">task</span>
+</div>
+</div>
+<h4 id="assignmentsCountDisplay" class="text-4xl font-bold text-white mb-1">0</h4>
+<p class="text-gray-400 text-sm">Assignments Done</p>
+</div>
+</section>
+
+<!-- Due Soon -->
+<section>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+<h2 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="w-1.5 h-6 bg-amber-accent rounded-full"></span>
+Due Soon
+</h2>
+<a class="text-sm text-primary hover:text-white transition-colors" href="assignments.html">View All</a>
+</div>
+<div class="flex min-w-full bg-surface-dark/20 border border-white/5 rounded-2xl p-8 flex-col items-center justify-center text-center">
+<span class="material-icons-round text-4xl text-gray-600 mb-2">event_available</span>
+<p class="text-gray-400 text-sm">No upcoming assignments!</p>
+<p class="text-xs text-gray-600 mb-4">You're all caught up. Great job!</p>
+<a href="assignments.html" class="px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-sm font-bold transition-all">View Assignments</a>
+</div>
+</section>
+
+<!-- Classrooms + Activity -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-surface-dark rounded-2xl p-6 border border-white/5">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-xl font-bold text-white">My Classrooms</h2>
+</div>
+<div id="classroomsContainer" class="bg-surface-dark rounded-2xl p-6 border border-white/5 min-h-[200px] flex flex-col items-center justify-center text-center">
+<span class="material-icons-round text-4xl text-gray-600 mb-3">school</span>
+<p class="text-white font-medium mb-1">No classrooms yet</p>
+<p class="text-xs text-gray-500 mb-4">Join a classroom to see your lessons here.</p>
+<button id="joinClassroomBtn" class="px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-sm font-bold transition-all">
+Join Classroom
+</button>
+</div>
+</div>
+<div class="bg-surface-dark rounded-2xl p-6 border border-white/5 flex flex-col">
+<h2 class="text-xl font-bold text-white mb-6">Recent Activity</h2>
+<div id="activityContainer" class="relative pl-2 space-y-6 flex flex-col items-center justify-center py-8">
+<span class="material-icons-round text-gray-600 text-3xl mb-2">history</span>
+<p class="text-xs text-gray-500">No recent activity</p>
+</div>
+<a href="study_mode_upload.html" class="mt-auto w-full py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors border border-dashed border-white/10 hover:border-white/20 text-center block">
+Start Learning
+</a>
+</div>
+</div>
+
+</div>
+<div class="h-10"></div>
+</div>
+</main>
+
+<!-- Join Classroom Modal -->
+<div id="joinClassroomModal" class="hidden modal-backdrop">
+<div class="bg-surface-dark w-full max-w-md rounded-2xl border border-white/10 shadow-2xl p-6">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold text-white">Join a Classroom</h3>
+<button onclick="document.getElementById('joinClassroomModal').classList.add('hidden')" class="text-gray-400 hover:text-white" aria-label="Close modal">
+<span class="material-icons-round">close</span>
+</button>
+</div>
+<p class="text-sm text-gray-400 mb-4">Enter the classroom code provided by your teacher.</p>
+<div class="group">
+<input id="joinCodeInput" type="text" maxlength="6" placeholder="Enter 6-digit code" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-primary/50 focus:border-transparent uppercase tracking-widest text-center text-lg font-mono"/>
+</div>
+<button id="joinClassroomSubmit" class="w-full mt-4 py-3 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
+<span class="material-icons-round text-lg">login</span> Join Classroom
+</button>
+</div>
+</div>
+
+<script type="module">
+import { initAuth, loadUserProfile, getGreeting, apiCall, auth, db } from '../js/auth.js';
+import { renderSidebar, setupProfileDropdown } from '../js/sidebar.js';
+import { showToast, setButtonLoading } from '../js/validation.js';
+import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+
+// Auth check + load data
+initAuth(async (user) => {
+  // Render Sidebar
+  renderSidebar('student', 'student_dashboard.html');
+  
+  // Profile dropdown
+  setupProfileDropdown(user);
+
+  const data = await loadUserProfile(user);
+
+  // Always update greeting with time-aware prefix
+  const greetingEl = document.getElementById('greetingNameDisplay');
+  const greetingPrefixEl = document.getElementById('greetingPrefix');
+  const firstName = data
+    ? (data.displayName || user.displayName || 'Student').split(' ')[0]
+    : (user.displayName || 'Student').split(' ')[0];
+  if (greetingPrefixEl) {
+    greetingPrefixEl.innerHTML = `${getGreeting()}, <span id="greetingNameDisplay" class="font-semibold text-white">${firstName}</span>`;
+  }
+
+  if (data) {
+
+    // Update XP and Level
+    const xp = data.xp || 0;
+    const level = data.level || 1;
+    const xpInCurrentLevel = xp % 500;
+    const progress = (xpInCurrentLevel / 500) * 100;
+
+    const xpDisplay = document.getElementById('xpDisplay');
+    const levelDisplay = document.getElementById('levelDisplay');
+    const xpProgressBar = document.getElementById('xpProgressBar');
+
+    if (xpDisplay) xpDisplay.textContent = `${xpInCurrentLevel} / 500 XP`;
+    if (levelDisplay) levelDisplay.textContent = `Level ${level} Scholar`;
+    if (xpProgressBar) xpProgressBar.style.width = `${progress}%`;
+  }
+
+  // Fetch notes count
+  try {
+    const notesQuery = query(collection(db, "notes"), where("ownerUid", "==", user.uid));
+    const notesSnap = await getDocs(notesQuery);
+    const notesCountDisplay = document.getElementById('notesCountDisplay');
+    if (notesCountDisplay) notesCountDisplay.textContent = notesSnap.size;
+  } catch (err) {
+    console.error("Error fetching notes count:", err);
+  }
+
+  // Fetch lessons count
+  try {
+    const lessonsQuery = query(collection(db, "lessons"), where("studentUid", "==", user.uid), where("status", "==", "completed"));
+    const lessonsSnap = await getDocs(lessonsQuery);
+    const lessonsCountDisplay = document.getElementById('lessonsCountDisplay');
+    if (lessonsCountDisplay) lessonsCountDisplay.textContent = lessonsSnap.size;
+  } catch (err) {
+    console.error("Error fetching lessons:", err);
+  }
+
+  // Fetch classrooms
+  try {
+    const classData = await apiCall('/classrooms/');
+    const classrooms = classData.classrooms || [];
+    const container = document.getElementById('classroomsContainer');
+
+    if (classrooms.length > 0) {
+      container.innerHTML = classrooms.map(c => `
+        <div class="w-full bg-white/5 rounded-xl p-4 border border-white/5 hover:border-primary/30 transition-colors text-left mb-3 last:mb-0">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold text-white truncate">${c.name}</h3>
+            <span class="px-2 py-0.5 text-[10px] bg-primary/10 text-primary rounded-full font-mono">${c.join_code || ''}</span>
+          </div>
+          <p class="text-xs text-gray-400">${c.subject || ''} ${c.grade ? '- Class ' + c.grade : ''}</p>
+        </div>
+      `).join('');
+    }
+  } catch (err) {
+    console.error("Error fetching classrooms:", err);
+  }
+});
+
+// Join Classroom modal
+const joinBtn = document.getElementById('joinClassroomBtn');
+const joinModal = document.getElementById('joinClassroomModal');
+const joinSubmit = document.getElementById('joinClassroomSubmit');
+const joinInput = document.getElementById('joinCodeInput');
+
+if (joinBtn && joinModal) {
+  joinBtn.addEventListener('click', () => {
+    joinModal.classList.remove('hidden');
+    joinInput.focus();
+  });
+}
+
+// Close modal on backdrop click
+if (joinModal) {
+  joinModal.addEventListener('click', (e) => {
+    if (e.target === joinModal) joinModal.classList.add('hidden');
+  });
+}
+
+// Close on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && joinModal && !joinModal.classList.contains('hidden')) {
+    joinModal.classList.add('hidden');
+  }
+});
+
+if (joinSubmit && joinInput) {
+  joinSubmit.addEventListener('click', async () => {
+    const code = joinInput.value.trim().toUpperCase();
+    if (!code || code.length < 4) {
+      showToast('Please enter a valid classroom code', 'error');
+      return;
+    }
+
+    setButtonLoading(joinSubmit, true, 'Joining...');
+
+    try {
+      await apiCall('/classrooms/join', {
+        method: 'POST',
+        body: JSON.stringify({ join_code: code }),
+      });
+      showToast('Successfully joined classroom!', 'success');
+      joinModal.classList.add('hidden');
+      setTimeout(() => window.location.reload(), 1000);
+    } catch (err) {
+      showToast(err.message || 'Failed to join classroom', 'error');
+    } finally {
+      setButtonLoading(joinSubmit, false);
+    }
+  });
+
+  joinInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') joinSubmit.click();
+  });
+}
+</script>
+</body></html>

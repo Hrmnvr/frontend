@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ScholarX Profile Setup</title>
+<link rel="stylesheet" href="../styles/shared.css"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#7c70ff",
+              "background-light": "#f6f5f8",
+              "background-dark": "#0A0A0F",
+              "surface-dark": "#111118",
+              "accent-primary-dim": "rgba(124, 112, 255, 0.15)", // Added based on request
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>/* Scrollbar styles now in shared.css */</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-white min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-blue-500/10 rounded-full blur-[100px]"></div>
+</div>
+<div class="w-full max-w-[520px] bg-white dark:bg-surface-dark rounded-xl shadow-2xl border border-gray-100 dark:border-white/5 relative z-10 animate-fade-in-up">
+<div class="p-8 pb-4">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<div class="h-1.5 w-8 bg-primary rounded-full"></div>
+<div class="h-1.5 w-8 bg-primary rounded-full"></div>
+</div>
+<span class="text-xs font-medium text-primary uppercase tracking-wider">Step 2 of 2</span>
+</div>
+<h1 class="text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">Set up your profile</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Personalize your ScholarX learning experience.</p>
+</div>
+<form class="px-8 pb-8 space-y-6">
+<div class="flex flex-col items-center justify-center mb-6">
+<div class="relative group cursor-pointer">
+<div class="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-600 group-hover:border-primary transition-colors flex items-center justify-center bg-gray-50 dark:bg-white/5 overflow-hidden">
+<span class="material-icons text-3xl text-gray-400 group-hover:text-primary transition-colors">add_a_photo</span>
+<input aria-label="Upload Avatar" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="text-xs text-white font-medium">Change</span>
+</div>
+</div>
+</div>
+<span class="mt-2 text-xs font-medium text-gray-500 dark:text-gray-400">Upload Avatar</span>
+</div>
+<div class="group">
+<label class="block text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 ml-1" for="fullName">Full Name</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+<span class="material-icons text-[20px]">person_outline</span>
+</span>
+<input class="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder-gray-400 dark:placeholder-gray-600" id="fullName" placeholder="Enter your full name" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div class="group relative">
+<label class="block text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 ml-1" for="grade">Grade / Class</label>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-lg py-3.5 pl-4 pr-10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer" id="grade">
+<option disabled="" selected="" value="">Select Class</option>
+<option value="5">Class 5</option>
+<option value="6">Class 6</option>
+<option value="7">Class 7</option>
+<option value="8">Class 8</option>
+<option value="9">Class 9</option>
+<option value="10">Class 10</option>
+<option value="11">Class 11</option>
+<option value="12">Class 12</option>
+<option value="college">College / University</option>
+</select>
+<span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+<span class="material-icons text-[20px]">expand_more</span>
+</span>
+</div>
+</div>
+<div class="group relative">
+<label class="block text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 ml-1" for="board">Board</label>
+<div class="relative">
+<select class="w-full appearance-none bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-lg py-3.5 pl-4 pr-10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all cursor-pointer" id="board">
+<option disabled="" selected="" value="">Select Board</option>
+<option value="cbse">CBSE</option>
+<option value="icse">ICSE</option>
+<option value="ib">IB</option>
+<option value="state">State Board</option>
+</select>
+<span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+<span class="material-icons text-[20px]">expand_more</span>
+</span>
+</div>
+</div>
+</div>
+<div class="group">
+<label class="block text-xs font-medium text-gray-400 dark:text-gray-500 mb-1.5 ml-1" for="schoolName">School Name</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+<span class="material-icons text-[20px]">school</span>
+</span>
+<input class="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-lg py-3.5 pl-11 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder-gray-400 dark:placeholder-gray-600" id="schoolName" placeholder="Enter your school name" type="text"/>
+</div>
+</div>
+<div class="group">
+<label class="block text-xs font-medium text-gray-400 dark:text-gray-500 mb-2 ml-1" for="subjects">Preferred Subjects</label>
+<div class="relative mb-3">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400">
+<span class="material-icons text-[20px]">search</span>
+</span>
+<input class="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white rounded-lg py-2.5 pl-11 pr-10 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder-gray-400 dark:placeholder-gray-600 text-sm" id="subjects" placeholder="Add more subjects..." type="text"/>
+<button class="absolute inset-y-0 right-2 flex items-center text-primary hover:text-white transition-colors" type="button">
+<span class="material-icons text-[20px]">add_circle</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-primary-dim border border-primary/30 text-primary text-xs font-medium transition-all group/chip cursor-pointer hover:bg-primary hover:text-white">
+<span>Physics</span>
+<span class="material-icons text-[14px] opacity-70 group-hover/chip:opacity-100">close</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-primary-dim border border-primary/30 text-primary text-xs font-medium transition-all group/chip cursor-pointer hover:bg-primary hover:text-white">
+<span>Mathematics</span>
+<span class="material-icons text-[14px] opacity-70 group-hover/chip:opacity-100">close</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium transition-all cursor-pointer hover:border-primary hover:text-primary">
+<span>Chemistry</span>
+<span class="material-icons text-[14px] opacity-0 group-hover:opacity-100">add</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium transition-all cursor-pointer hover:border-primary hover:text-primary">
+<span>Biology</span>
+<span class="material-icons text-[14px] opacity-0 group-hover:opacity-100">add</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 text-xs font-medium transition-all cursor-pointer hover:border-primary hover:text-primary">
+<span>Computer Science</span>
+<span class="material-icons text-[14px] opacity-0 group-hover:opacity-100">add</span>
+</div>
+</div>
+</div>
+<div class="pt-2 space-y-3">
+<button id="completeSetupBtn" class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-full transition-all shadow-[0_4px_14px_0_rgba(124,112,255,0.39)] hover:shadow-[0_6px_20px_rgba(124,112,255,0.23)] hover:-translate-y-0.5 active:translate-y-0" type="button">
+                    Complete Setup
+                </button>
+<button id="skipBtn" class="w-full bg-transparent hover:bg-white/5 text-gray-500 dark:text-gray-400 hover:text-white font-medium py-3 rounded-full transition-colors" type="button">
+                    Skip for now
+                </button>
+</div>
+</form>
+</div>
+<div class="fixed bottom-8 right-8 hidden lg:block opacity-30 pointer-events-none w-64 h-64 mix-blend-overlay">
+<img alt="Abstract futuristic 3d shapes dark background" class="w-full h-full object-cover rounded-full blur-xl" data-alt="Abstract dark futuristic geometric shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf9fLS_HPlSeenO49MfeMBgsZVwYil3xMQ7qjWh708WliD0DzdfAnTUIWslW7UTDKPXlgGTYfF26sug-DAvbdTnDK_4gpUU6AGjYflFt76oLGosiJaM8k8_FKvteZlwBTLwRwoFJTaI4T-EaXET5tBhCmmPzDB4EBfE0pAxdBHWz39TWDDIJ8Atu6JfH6PBrxHQBwPTe1Q25gi3Qu7hnMH9-8x7728AxxCaLHc-XtTRZyzflrZyhzsNjM1Q5PjnLAVWouiMc0uCq72"/>
+</div>
+
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+    import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+    import { FIREBASE_CONFIG } from '../js/config.js';
+    import { showToast, setButtonLoading, showFieldError, clearFieldError, validateRequired } from '../js/validation.js';
+
+    const app = initializeApp(FIREBASE_CONFIG);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null;
+
+    onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+    });
+
+    // Avatar Upload with validation
+    const avatarInput = document.querySelector('input[aria-label="Upload Avatar"]');
+    const avatarContainer = avatarInput?.closest('.relative');
+
+    if (avatarInput) {
+        avatarInput.setAttribute('accept', 'image/jpeg,image/png');
+        avatarInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Validate type
+            if (!['image/jpeg', 'image/png'].includes(file.type)) {
+                showToast('Please upload a JPG or PNG image', 'error');
+                avatarInput.value = '';
+                return;
+            }
+
+            // Validate size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('Image must be under 2MB', 'error');
+                avatarInput.value = '';
+                return;
+            }
+
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const container = avatarInput.closest('.overflow-hidden');
+                if (container) {
+                    container.innerHTML = `<img src="${ev.target.result}" class="w-full h-full object-cover" alt="Avatar preview"/>`;
+                    container.appendChild(avatarInput);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Subject Tag Management
+    const subjectsContainer = document.querySelector('.flex.flex-wrap.gap-2');
+    const subjectsInput = document.getElementById('subjects');
+    const addSubjectBtn = subjectsInput?.nextElementSibling;
+
+    function getSelectedSubjects() {
+        const chips = subjectsContainer.querySelectorAll('.bg-accent-primary-dim span:first-child');
+        return Array.from(chips).map(s => s.textContent.trim());
+    }
+
+    function createChip(subjectName) {
+        const chip = document.createElement('div');
+        chip.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-primary-dim border border-primary/30 text-primary text-xs font-medium transition-all group/chip cursor-pointer hover:bg-primary hover:text-white';
+        chip.innerHTML = `
+            <span>${subjectName}</span>
+            <span class="material-icons text-[14px] opacity-70 group-hover/chip:opacity-100 remove-chip">close</span>
+        `;
+        chip.querySelector('.remove-chip').addEventListener('click', (e) => {
+             e.stopPropagation();
+             chip.remove();
+        });
+        chip.addEventListener('click', () => chip.remove());
+        return chip;
+    }
+
+    function addSubject() {
+        const val = subjectsInput.value.trim();
+        if (val) {
+            subjectsContainer.appendChild(createChip(val));
+            subjectsInput.value = '';
+        }
+    }
+
+    if (subjectsInput) {
+        subjectsInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSubject();
+            }
+        });
+    }
+
+    if (addSubjectBtn) addSubjectBtn.addEventListener('click', addSubject);
+
+    // Make suggested subject chips clickable to toggle selection
+    document.querySelectorAll('.flex.flex-wrap.gap-2 > div').forEach(chip => {
+        chip.addEventListener('click', () => {
+            const isSelected = chip.classList.contains('bg-accent-primary-dim');
+            if (isSelected) {
+                chip.remove();
+            } else {
+                const name = chip.querySelector('span')?.textContent.trim();
+                if (name) {
+                    chip.remove();
+                    subjectsContainer.appendChild(createChip(name));
+                }
+            }
+        });
+    });
+
+    // Complete Setup with validation
+    document.getElementById('completeSetupBtn').addEventListener('click', async () => {
+        const fullNameInput = document.getElementById('fullName');
+        const gradeInput = document.getElementById('grade');
+        const boardInput = document.getElementById('board');
+        const fullName = fullNameInput.value.trim();
+        const grade = gradeInput.value;
+        const board = boardInput.value;
+        const school = document.getElementById('schoolName').value.trim();
+        const subjects = getSelectedSubjects();
+
+        // Validate
+        let hasError = false;
+
+        const nameError = validateRequired(fullName, 'Full name');
+        if (nameError) { showFieldError(fullNameInput, nameError); hasError = true; }
+        else clearFieldError(fullNameInput);
+
+        if (!grade) { showFieldError(gradeInput, 'Please select a grade'); hasError = true; }
+        else clearFieldError(gradeInput);
+
+        if (!board) { showFieldError(boardInput, 'Please select a board'); hasError = true; }
+        else clearFieldError(boardInput);
+
+        if (hasError) return;
+
+        const btn = document.getElementById('completeSetupBtn');
+        setButtonLoading(btn, true, 'Saving...');
+
+        // Save to localStorage
+        localStorage.setItem('user_name', fullName);
+        localStorage.setItem('user_grade', grade);
+        localStorage.setItem('user_board', board);
+        localStorage.setItem('user_school', school);
+
+        if (currentUser) {
+            try {
+                // Fetch existing role if not in localStorage
+                let role = localStorage.getItem('user_role');
+                if (!role) {
+                    const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+                    if (docSnap.exists()) {
+                        role = docSnap.data().role || docSnap.data().accountType;
+                    }
+                }
+                role = role || 'student'; // Absolute fallback
+
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    displayName: fullName,
+                    grade: grade,
+                    board: board,
+                    school: school,
+                    subjects: subjects,
+                    role: role,
+                    accountType: role,
+                    profileCompleted: true,
+                    updatedAt: new Date().toISOString()
+                }, { merge: true });
+
+                setTimeout(() => {
+                    window.location.href = role === 'teacher' ? 'teacher_dashboard.html' : 'student_dashboard.html';
+                }, 500);
+            } catch (e) {
+                console.error("Error saving profile:", e);
+                showToast('Profile saved locally. Will sync when online.', 'info');
+                
+                // Fallback redirect even on error
+                const role = localStorage.getItem('user_role') || 'student';
+                setTimeout(() => {
+                    window.location.href = role === 'teacher' ? 'teacher_dashboard.html' : 'student_dashboard.html';
+                }, 1000);
+            }
+        }
+    });
+
+    document.getElementById('skipBtn').addEventListener('click', async () => {
+        let role = localStorage.getItem('user_role');
+        if (!role && currentUser) {
+            const docSnap = await getDoc(doc(db, "users", currentUser.uid));
+            if (docSnap.exists()) {
+                role = docSnap.data().role || docSnap.data().accountType;
+            }
+        }
+        role = role || 'student';
+        window.location.href = role === 'teacher' ? 'teacher_dashboard.html' : 'student_dashboard.html';
+    });
+</script>
+</body></html>

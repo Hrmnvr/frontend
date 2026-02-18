@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Study Mode - ScholarX</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link rel="stylesheet" href="../styles/shared.css"/>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#7c70ff",
+        "background-light": "#f6f5f8",
+        "background-dark": "#110f23",
+        "surface-dark": "#1c1a33",
+        "amber-accent": "#ffb020",
+      },
+      fontFamily: { "display": ["Lexend", "sans-serif"] },
+      borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+    },
+  },
+}
+</script>
+<style>/* Styles moved to shared.css */</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-100 font-display min-h-screen flex antialiased selection:bg-primary selection:text-white overflow-hidden">
+<!-- Sidebar (injected by JS) -->
+<aside class="w-64 h-screen hidden lg:flex flex-col border-r border-gray-200 dark:border-white/5 bg-white dark:bg-[#0d0b1a] shrink-0 sticky top-0 z-30"></aside>
+
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative" role="main">
+  <!-- Header -->
+  <header class="h-20 flex items-center justify-between px-6 lg:px-10 border-b border-gray-200 dark:border-white/5 bg-white/80 dark:bg-[#110f23]/80 backdrop-blur-md sticky top-0 z-20">
+    <button class="lg:hidden p-2 -ml-2 text-gray-500 hover:text-primary" aria-label="Toggle navigation menu" data-sidebar-toggle>
+      <span class="material-icons-round">menu</span>
+    </button>
+    
+    <div class="hidden md:flex items-center w-full max-w-xl mx-auto lg:mx-0">
+      <div class="relative w-full group">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary material-icons-round text-xl pointer-events-none transition-transform group-focus-within:scale-110">auto_awesome</span>
+        <input class="w-full pl-12 pr-4 py-3 bg-gray-100 dark:bg-surface-dark/50 border-none rounded-full text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-inner" placeholder="Ask ScholarX AI to summarize a topic..." type="text"/>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+          <span class="text-[10px] bg-white/10 px-2 py-1 rounded text-gray-400 border border-white/5">⌘ K</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 lg:gap-6 ml-auto">
+      <button class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
+        <span class="material-icons-round">notifications_none</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+      </button>
+      <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+        <div class="text-right hidden sm:block">
+          <p id="studentNameDisplay" class="text-sm font-semibold text-gray-900 dark:text-white leading-tight">Student</p>
+          <p id="studentGradeDisplay" class="text-xs text-gray-500 dark:text-gray-400">Loading...</p>
+        </div>
+        <div id="studentInitials" class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm border border-primary/20">
+          <span class="material-icons-round">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+<div class="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth">
+    <!-- Main Content for Study Mode Upload -->
+    <div class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-12 animate-fade-in-up">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-white">Upload your textbook</h1>
+        <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+                        ScholarX AI will analyze your material and generate personalized study guides.
+                        <span class="block mt-1 text-sm opacity-70">Supported formats: PDF, EPUB • Max size 50MB</span>
+        </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Left Column: Upload Area -->
+        <div class="lg:col-span-7 space-y-6">
+        <!-- Upload Zone -->
+        <div class="relative group cursor-pointer" id="uploadZone">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-500 pointer-events-none"></div>
+            <div class="relative w-full h-64 bg-surface-dark rounded-lg border-2 border-dashed border-gray-700 hover:border-primary transition-all duration-300 flex flex-col items-center justify-center gap-4 text-center p-8">
+                <input type="file" id="fileInput" class="hidden" accept=".pdf">
+                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons-round text-primary text-3xl">cloud_upload</span>
+                </div>
+                <div>
+                    <p class="text-lg font-medium text-white">Drag &amp; drop your PDF here</p>
+                    <p class="text-sm text-gray-500 mt-1">or <span class="text-primary hover:underline">browse files</span></p>
+                </div>
+               <!-- Progress Bar -->
+               <div id="uploadProgress" class="hidden w-64 h-1.5 bg-white/10 rounded-full mt-4 overflow-hidden">
+                   <div id="uploadProgressBar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+               </div>
+            </div>
+        </div>
+        
+        <!-- Post-Upload State: File Info (Hidden by default) -->
+        <div id="file-info-container" class="hidden bg-surface-dark rounded-lg p-5 border border-white/5 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <span class="material-icons-round text-red-500">picture_as_pdf</span>
+                </div>
+                <div>
+                    <h3 class="font-medium text-white" id="uploadedFileName">filename.pdf</h3>
+                    <p class="text-xs text-green-400 flex items-center gap-1 mt-0.5">
+                        <span class="material-icons-round text-[14px]">check_circle</span>
+                        Upload complete
+                    </p>
+                </div>
+            </div>
+            <button id="removeFileBtn" class="p-2 hover:bg-white/5 rounded-full text-gray-400 hover:text-red-400 transition-colors">
+                <span class="material-icons-round">delete_outline</span>
+            </button>
+        </div>
+        
+        <!-- Detected Chapters List (Hidden by default) -->
+        <div id="chapters-list-container" class="hidden bg-surface-dark rounded-lg p-6 border border-white/5">
+           <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-white">Detected Chapters</h3>
+                <span class="text-xs font-medium px-3 py-1 bg-primary/20 text-primary rounded-full">0 Chapters Found</span>
+           </div>
+           <div class="space-y-3 max-h-[320px] overflow-y-auto pr-2" id="chapters-list">
+               <!-- Dynamic chapters will go here -->
+           </div>
+        </div>
+        </div>
+        <!-- Right Column: Generation Settings & Summary -->
+        <div class="lg:col-span-5 space-y-6">
+        <!-- Generation Options Card -->
+        <div class="bg-surface-dark rounded-lg p-6 border border-white/5 h-full flex flex-col">
+        <h3 class="text-lg font-semibold text-white mb-6">Generation Options</h3>
+        <div class="space-y-4 flex-grow">
+        <!-- Option 1 -->
+        <label class="relative flex items-start gap-4 p-4 rounded-lg cursor-pointer border-2 border-primary bg-primary/10 transition-all">
+        <input checked="" class="mt-1 w-5 h-5 text-primary border-gray-500 bg-background-dark focus:ring-primary focus:ring-offset-background-dark" name="gen_type" type="radio"/>
+        <div>
+        <span class="block font-medium text-white">Complete Notes</span>
+        <span class="block text-sm text-gray-400 mt-1">Detailed summaries, key concepts, and real-world examples. Best for deep learning.</span>
+        </div>
+        <span class="absolute top-4 right-4 material-icons-round text-primary">auto_stories</span>
+        </label>
+        <!-- Option 2 -->
+        <label class="relative flex items-start gap-4 p-4 rounded-lg cursor-pointer border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all">
+        <input class="mt-1 w-5 h-5 text-primary border-gray-500 bg-background-dark focus:ring-primary focus:ring-offset-background-dark" name="gen_type" type="radio"/>
+        <div>
+        <span class="block font-medium text-white">Formulas Sheet</span>
+        <span class="block text-sm text-gray-400 mt-1">Condensed list of all mathematical formulas and constants.</span>
+        </div>
+        <span class="absolute top-4 right-4 material-icons-round text-gray-600">functions</span>
+        </label>
+        <!-- Option 3 -->
+        <label class="relative flex items-start gap-4 p-4 rounded-lg cursor-pointer border border-white/10 hover:border-white/20 hover:bg-white/5 transition-all">
+        <input class="mt-1 w-5 h-5 text-primary border-gray-500 bg-background-dark focus:ring-primary focus:ring-offset-background-dark" name="gen_type" type="radio"/>
+        <div>
+        <span class="block font-medium text-white">Exam Points</span>
+        <span class="block text-sm text-gray-400 mt-1">High-yield bullet points and potential exam questions.</span>
+        </div>
+        <span class="absolute top-4 right-4 material-icons-round text-gray-600">assignment_turned_in</span>
+        </label>
+        </div>
+        <!-- CTA Section -->
+        <div class="mt-8 pt-6 border-t border-white/10">
+        <div class="flex justify-between items-center text-sm text-gray-400 mb-4">
+        <span>Est. Generation Time</span>
+        <span class="text-white font-medium">~45 seconds</span>
+        </div>
+        <button id="generateNotesBtn" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 px-6 rounded-full shadow-lg shadow-primary/25 transform transition hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
+        <span class="material-icons-round">auto_awesome</span>
+                                    Generate Notes
+                                </button>
+        </div>
+        </div>
+        </div>
+        </div><!-- Grid Close -->
+        
+        <!-- Your Library Section (Outside Grid) -->
+        <div class="mt-20 animate-fade-in-up" style="animation-delay: 200ms;">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-3xl font-bold text-white">Your Library</h2>
+                    <span id="libraryCount" class="px-3 py-1 bg-primary/20 text-primary text-xs font-bold rounded-full">0 Notes</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="refreshLibraryBtn" class="p-2 hover:bg-white/5 rounded-full text-gray-400 hover:text-white transition-colors">
+                        <span class="material-icons-round">refresh</span>
+                    </button>
+                    <div class="h-8 w-[1px] bg-white/10 mx-2"></div>
+                    <select class="bg-surface-dark border-white/5 rounded-lg text-xs text-gray-400 focus:ring-primary focus:border-primary px-3 py-2">
+                        <option>Sort by Date</option>
+                        <option>Sort by Name</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Library Grid -->
+            <div id="libraryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Empty State -->
+                <div id="libraryEmptyState" class="col-span-full py-20 flex flex-col items-center justify-center text-center bg-surface-dark/30 rounded-2xl border-2 border-dashed border-white/5">
+                    <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
+                        <span class="material-icons-round text-4xl text-gray-600">bookmark_border</span>
+                    </div>
+                    <h3 class="text-xl font-medium text-white mb-2">No notes saved yet</h3>
+                    <p class="text-gray-500 max-w-sm mx-auto">Upload a textbook and generate notes to start building your knowledge base.</p>
+                </div>
+                
+                <!-- Skeleton Loader (Hidden) -->
+                <div id="librarySkeleton" class="hidden col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-surface-dark rounded-xl p-6 border border-white/5 animate-pulse">
+                        <div class="w-12 h-12 bg-white/10 rounded-lg mb-4"></div>
+                        <div class="h-4 bg-white/10 rounded-full w-3/4 mb-2"></div>
+                        <div class="h-3 bg-white/10 rounded-full w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<script type="module">
+    import { auth, db, initAuth, apiCall, loadUserProfile, getAuthToken } from '../js/auth.js';
+    import { renderSidebar, setupProfileDropdown } from '../js/sidebar.js';
+    import { showToast, setButtonLoading, escapeHtml } from '../js/validation.js';
+    import { collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+
+    let currentDocumentId = null;
+
+    // ============================================================
+    // Initialization & Auth
+    // ============================================================
+    initAuth(async (user) => {
+        // Render Sidebar
+        renderSidebar('student', 'study_mode_upload.html');
+        
+        // Profile dropdown
+        setupProfileDropdown(user);
+
+        // Load User Profile Data
+        const profileData = await loadUserProfile(user);
+        window._userProfile = profileData || {};
+
+        // Load Library
+        loadLibrary(user.uid);
+    });
+
+    // ============================================================
+    // File Upload Logic
+    // ============================================================
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfoContainer = document.getElementById('file-info-container');
+    const uploadedFileName = document.getElementById('uploadedFileName');
+    const removeFileBtn = document.getElementById('removeFileBtn');
+    const generateBtn = document.getElementById('generateNotesBtn');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('uploadProgressBar');
+
+    if (uploadZone && fileInput) {
+        uploadZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
+            uploadZone.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); });
+        });
+
+        uploadZone.addEventListener('dragenter', () => uploadZone.classList.add('border-primary', 'bg-primary/5'));
+        uploadZone.addEventListener('dragover', () => uploadZone.classList.add('border-primary', 'bg-primary/5'));
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('border-primary', 'bg-primary/5'));
+        uploadZone.addEventListener('drop', (e) => {
+            uploadZone.classList.remove('border-primary', 'bg-primary/5');
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+    }
+
+    async function handleFile(file) {
+        // Validation
+        if (file.type !== 'application/pdf') {
+            showToast('Please upload a PDF file.', 'error');
+            return;
+        }
+        if (file.size > 50 * 1024 * 1024) {
+            showToast('File size must be ≤ 50MB.', 'error');
+            return;
+        }
+
+        uploadedFileName.textContent = file.name;
+        uploadProgress.classList.remove('hidden');
+        progressBar.style.width = '0%';
+        
+        const statusText = fileInfoContainer.querySelector('p');
+        statusText.className = 'text-xs text-yellow-400 flex items-center gap-1 mt-0.5';
+        statusText.innerHTML = '<span class="material-icons-round text-[14px] animate-spin">refresh</span> Processing...';
+
+        const token = await getAuthToken();
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${window.location.origin}/api/v1/study/upload`, true);
+        if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+        xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) {
+                const pct = (e.loaded / e.total) * 100;
+                progressBar.style.width = pct + '%';
+            }
+        };
+
+        xhr.onload = async () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const data = JSON.parse(xhr.responseText);
+                currentDocumentId = data.document_id;
+                
+                uploadZone.classList.add('hidden');
+                fileInfoContainer.classList.remove('hidden');
+                statusText.className = 'text-xs text-green-400 flex items-center gap-1 mt-0.5';
+                statusText.innerHTML = '<span class="material-icons-round text-[14px]">check_circle</span> Upload complete';
+                
+                showPdfPreview(file);
+                showToast('File uploaded successfully!', 'success');
+            } else {
+                let msg = 'Upload failed';
+                try { msg = JSON.parse(xhr.responseText).detail || msg; } catch(e) {}
+                showToast(msg, 'error');
+                resetUpload();
+            }
+        };
+
+        xhr.onerror = () => {
+            showToast('Network error during upload.', 'error');
+            resetUpload();
+        };
+
+        xhr.send(formData);
+    }
+
+    function resetUpload() {
+        fileInput.value = '';
+        uploadZone.classList.remove('hidden');
+        fileInfoContainer.classList.add('hidden');
+        uploadProgress.classList.add('hidden');
+        progressBar.style.width = '0%';
+        const preview = document.getElementById('pdf-preview');
+        if (preview) preview.remove();
+    }
+
+    function showPdfPreview(file) {
+        const url = URL.createObjectURL(file);
+        const previewId = 'pdf-preview';
+        let previewContainer = document.getElementById(previewId);
+        if (previewContainer) previewContainer.remove();
+
+        previewContainer = document.createElement('div');
+        previewContainer.id = previewId;
+        previewContainer.className = 'mt-6 bg-surface-dark rounded-lg p-1 border border-white/5 h-[500px] relative fade-in';
+        previewContainer.innerHTML = `
+            <embed src="${url}#toolbar=0" type="application/pdf" width="100%" height="100%" class="rounded">
+            <div class="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">PDF Preview</div>
+        `;
+        fileInfoContainer.parentNode.insertBefore(previewContainer, fileInfoContainer.nextSibling);
+    }
+
+    removeFileBtn.addEventListener('click', resetUpload);
+
+    // ============================================================
+    // Generation Logic
+    // ============================================================
+    if (generateBtn) {
+        generateBtn.addEventListener('click', async () => {
+            if (!currentDocumentId) {
+                showToast('Please upload a file first.', 'info');
+                return;
+            }
+
+            const genType = document.querySelector('input[name="gen_type"]:checked');
+            const label = genType.nextElementSibling.querySelector('span.font-medium').textContent.trim();
+            
+            setButtonLoading(generateBtn, true, 'Generating...');
+
+            try {
+                const profile = window._userProfile || {};
+                const result = await apiCall('/study/generate-notes', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        document_id: currentDocumentId,
+                        chapter_title: label,
+                        grade: profile.grade || localStorage.getItem('user_grade') || '',
+                        board: profile.board || localStorage.getItem('user_board') || ''
+                    })
+                });
+
+                openNotesModal(label, result.content, true);
+                showToast('Notes generated successfully!', 'success');
+
+            } catch (error) {
+                showToast(error.message, 'error');
+            } finally {
+                setButtonLoading(generateBtn, false);
+            }
+        });
+    }
+
+    // ============================================================
+    // Library & Modal
+    // ============================================================
+    async function loadLibrary(uid) {
+        const grid = document.getElementById('libraryGrid');
+        const emptyState = document.getElementById('libraryEmptyState');
+        const countSpan = document.getElementById('libraryCount');
+        if (!grid) return;
+
+        try {
+            const notesQuery = query(collection(db, "notes"), where("ownerUid", "==", uid));
+            const notesSnap = await getDocs(notesQuery);
+            
+            if (countSpan) countSpan.textContent = `${notesSnap.size} Notes`;
+
+            if (notesSnap.empty) {
+                emptyState.classList.remove('hidden');
+                grid.querySelectorAll('.library-card').forEach(c => c.remove());
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.querySelectorAll('.library-card').forEach(c => c.remove());
+
+            const sortedNotes = [];
+            notesSnap.forEach(d => sortedNotes.push({ id: d.id, ...d.data() }));
+            sortedNotes.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+            sortedNotes.forEach((note) => {
+                const card = document.createElement('div');
+                card.className = 'library-card bg-surface-dark group hover:bg-surface-dark/80 rounded-xl p-6 border border-white/5 hover:border-primary/30 transition-all cursor-pointer transform hover:-translate-y-1 fade-in';
+                
+                const date = note.createdAt ? new Date(note.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently';
+                
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                            <span class="material-icons-round text-2xl">description</span>
+                        </div>
+                        <span class="text-[10px] text-gray-500 font-mono">${date}</span>
+                    </div>
+                    <h4 class="text-white font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1">${note.chapterTitle || 'Untitled Notes'}</h4>
+                    <p class="text-gray-500 text-xs line-clamp-2 leading-relaxed mb-4">${note.content.substring(0, 100).replace(/[#*`]/g, '')}...</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                        <span class="text-[10px] bg-white/5 px-2 py-1 rounded text-gray-400">Study Guide</span>
+                        <div class="flex gap-2">
+                             <span class="material-icons-round text-gray-500 text-sm hover:text-white transition-colors">visibility</span>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => openNotesModal(note.chapterTitle || 'Saved Notes', note.content));
+                grid.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Error loading library:", error);
+        }
+    }
+
+    function openNotesModal(title, content, isNew = false) {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm';
+        
+        const saveBtnHtml = isNew ? `
+            <button id="saveToLibraryBtn" class="px-6 py-2 bg-primary hover:bg-primary/90 rounded-lg text-white text-sm font-bold shadow-lg shadow-primary/20 transform transition active:scale-95 flex items-center gap-2">
+                <span class="material-icons-round text-sm">bookmark_add</span>
+                Save to Library
+            </button>
+        ` : `
+            <button class="ml-3 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-lg text-sm font-bold flex items-center gap-2" onclick="window.print()">
+                <span class="material-icons-round text-sm">print</span> Print
+            </button>
+        `;
+
+        modal.innerHTML = `
+            <div class="bg-surface-dark w-full max-w-4xl h-[80vh] rounded-2xl border border-white/10 flex flex-col shadow-2xl animate-fade-in">
+                <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <span class="material-icons-round text-primary">auto_awesome</span>
+                        <h2 class="text-xl font-bold text-white">${escapeHtml(title)}</h2>
+                    </div>
+                    <button class="text-gray-400 hover:text-white transition-colors modal-close">
+                        <span class="material-icons-round">close</span>
+                    </button>
+                </div>
+                <div class="flex-1 overflow-y-auto p-8 prose prose-invert max-w-none scroll-smooth">
+                    ${marked.parse(content)}
+                </div>
+                <div class="p-4 border-t border-white/10 flex justify-between items-center bg-black/20">
+                    <div class="text-gray-400 text-sm">
+                        ${isNew ? '<span class="text-green-400 flex items-center gap-1"><span class="material-icons-round text-sm">stars</span> +50 XP Awarded</span>' : ''}
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-white text-sm transition-colors modal-close">Close</button>
+                        ${saveBtnHtml}
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelectorAll('.modal-close').forEach(btn => btn.onclick = () => modal.remove());
+
+        const saveToLibraryBtn = modal.querySelector('#saveToLibraryBtn');
+        if (saveToLibraryBtn) {
+            saveToLibraryBtn.addEventListener('click', () => {
+                saveToLibraryBtn.disabled = true;
+                saveToLibraryBtn.innerHTML = '<span class="material-icons-round text-sm animate-spin">refresh</span> Saving...';
+                setTimeout(() => {
+                    saveToLibraryBtn.innerHTML = '<span class="material-icons-round text-sm">check</span> Saved!';
+                    saveToLibraryBtn.classList.replace('bg-primary', 'bg-green-500');
+                    setTimeout(() => {
+                        modal.remove();
+                        if (auth.currentUser) loadLibrary(auth.currentUser.uid);
+                    }, 800);
+                }, 1000);
+            });
+        }
+    }
+
+    const refreshBtn = document.getElementById('refreshLibraryBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            if (auth.currentUser) loadLibrary(auth.currentUser.uid);
+            refreshBtn.classList.add('animate-spin');
+            setTimeout(() => refreshBtn.classList.remove('animate-spin'), 1000);
+        });
+    }
+</script>
+</body></html>

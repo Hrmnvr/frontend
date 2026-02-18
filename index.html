@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ScholarX - Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Lexend', sans-serif;
+    background: #0A0A0F;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .glow {
+    position: fixed;
+    width: 40vw; height: 40vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    opacity: 0.15;
+  }
+  .glow-1 { top: -10%; left: -5%; background: #7c70ff; }
+  .glow-2 { bottom: -10%; right: -5%; background: #7c70ff; opacity: 0.08; }
+  .card {
+    background: rgba(22, 22, 31, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 1.5rem;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .logo {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, #7c70ff, #6358e0);
+    border-radius: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.5rem; font-weight: 700;
+    box-shadow: 0 8px 24px rgba(124,112,255,0.3);
+  }
+  h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+  p { color: rgba(255,255,255,0.4); font-size: 0.875rem; font-weight: 300; margin-bottom: 2rem; }
+  .input-wrap {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 9999px;
+    color: #fff;
+    font-family: 'Lexend', sans-serif;
+    font-size: 0.95rem;
+    text-align: center;
+    letter-spacing: 0.2em;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus {
+    border-color: #7c70ff;
+    box-shadow: 0 0 0 3px rgba(124,112,255,0.15);
+  }
+  input::placeholder { color: rgba(255,255,255,0.2); letter-spacing: 0.15em; }
+  button {
+    width: 100%;
+    padding: 1rem;
+    background: #7c70ff;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    font-family: 'Lexend', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(124,112,255,0.35);
+    transition: all 0.2s;
+  }
+  button:hover { background: #6a5fef; transform: translateY(-1px); }
+  button:active { transform: translateY(0) scale(0.98); }
+  .error {
+    color: #f87171;
+    font-size: 0.8rem;
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+    display: none;
+  }
+  .error.show { display: block; }
+  .shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+  }
+</style>
+</head>
+<body>
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="card">
+  <div class="logo">S</div>
+  <h1>ScholarX</h1>
+  <p>Enter the access code to continue.</p>
+  <div class="input-wrap">
+    <input id="passInput" type="password" placeholder="Access Code" autocomplete="off" autofocus />
+  </div>
+  <div id="errorMsg" class="error">Incorrect access code. Try again.</div>
+  <button id="enterBtn">Enter</button>
+</div>
+<script>
+  const PASS_HASH = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
+
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // Check if already authenticated
+  if (sessionStorage.getItem('sx_auth') === 'true') {
+    window.location.href = 'pages/index.html';
+  }
+
+  const inp = document.getElementById('passInput');
+  const btn = document.getElementById('enterBtn');
+  const err = document.getElementById('errorMsg');
+
+  async function tryAccess() {
+    const val = inp.value.trim();
+    if (!val) { inp.focus(); return; }
+    const hash = await sha256(val);
+    if (hash === PASS_HASH) {
+      sessionStorage.setItem('sx_auth', 'true');
+      btn.textContent = 'Entering...';
+      btn.style.pointerEvents = 'none';
+      setTimeout(() => { window.location.href = 'pages/index.html'; }, 300);
+    } else {
+      err.classList.add('show');
+      inp.classList.add('shake');
+      inp.value = '';
+      inp.focus();
+      setTimeout(() => inp.classList.remove('shake'), 400);
+    }
+  }
+
+  btn.addEventListener('click', tryAccess);
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryAccess();
+    err.classList.remove('show');
+  });
+</script>
+</body>
+</html>

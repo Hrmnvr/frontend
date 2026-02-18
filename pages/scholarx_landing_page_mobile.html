@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ScholarX Landing Page Mobile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#7c70ff",
+                "background-light": "#f6f5f8",
+                "background-dark": "#0A0A0F", 
+                "surface-dark": "#13131F",
+                },
+                fontFamily: {
+                "display": ["Lexend", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                backgroundImage: {
+                    'gradient-primary': 'linear-gradient(135deg, #7c70ff 0%, #a78bfa 100%)',
+                    'gradient-text': 'linear-gradient(to right, #ffffff 40%, #7c70ff 100%)',
+                    'glow': 'conic-gradient(from 180deg at 50% 50%, #7c70ff33 0deg, transparent 180deg)',
+                }
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile preview */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .glass-panel {
+            background: rgba(19, 19, 31, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(124, 112, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #FFFFFF 0%, #7c70ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-black font-display text-white h-screen overflow-hidden flex items-center justify-center p-4">
+<!-- Desktop Container (Simulator Frame) -->
+<div class="relative w-full max-w-[400px] h-[850px] bg-background-dark rounded-[2.5rem] overflow-hidden shadow-2xl border-[8px] border-[#1a1a24] flex flex-col">
+<!-- Status Bar Simulation -->
+<div class="absolute top-0 w-full h-12 z-50 flex justify-between items-center px-6 text-xs font-medium text-gray-400">
+<span>9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons text-[14px]">signal_cellular_alt</span>
+<span class="material-icons text-[14px]">wifi</span>
+<span class="material-icons text-[14px]">battery_full</span>
+</div>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto no-scrollbar pb-24 relative z-10">
+<!-- Glow Effect Background -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-primary/20 blur-[100px] rounded-full pointer-events-none -z-10"></div>
+<!-- Navbar -->
+<nav class="flex items-center justify-between px-6 pt-14 pb-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white font-bold text-lg">S</div>
+<span class="font-bold text-lg tracking-tight">ScholarX</span>
+</div>
+<button class="p-2 rounded-full bg-surface-dark border border-white/5 hover:bg-white/10 transition-colors">
+<span class="material-icons text-white">menu</span>
+</button>
+</nav>
+<!-- Hero Section -->
+<header class="px-6 pt-4 pb-8 text-center flex flex-col items-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-xs font-medium text-primary uppercase tracking-wider">New: Board Exam Prep</span>
+</div>
+<h1 class="text-4xl font-bold leading-[1.1] mb-4 tracking-tight">
+                    The AI tutor that actually <span class="text-gradient">finishes what it starts.</span>
+</h1>
+<p class="text-gray-400 text-sm leading-relaxed mb-8 max-w-[280px]">
+                    Personalized curriculum for CBSE &amp; ICSE that adapts to your learning pace instantly.
+                </p>
+<div class="w-full flex flex-col gap-3">
+<button class="w-full py-4 rounded-full bg-primary text-white font-semibold text-base shadow-lg shadow-primary/25 hover:bg-[#6a5eff] transition-all transform hover:scale-[1.02]">
+                        Start for Free
+                    </button>
+<button class="w-full py-4 rounded-full bg-transparent border border-white/10 text-white font-medium hover:bg-white/5 transition-colors flex items-center justify-center gap-2">
+<span class="material-icons text-lg">play_circle</span>
+                        Watch Demo
+                    </button>
+</div>
+</header>
+<!-- Floating App Mockup -->
+<div class="px-4 mb-12 relative group">
+<div class="absolute inset-x-8 bottom-0 h-32 bg-primary/20 blur-2xl rounded-full -z-10 group-hover:bg-primary/30 transition-all duration-500"></div>
+<div class="glass-panel rounded-xl p-4 transform rotate-x-12 perspective-1000 transition-transform duration-500 hover:-translate-y-1">
+<!-- Mockup Header -->
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<img alt="User avatar placeholder" class="w-10 h-10 rounded-full object-cover border-2 border-primary" data-alt="Young student avatar smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhXQz29luT7MPeHWh_JE0VZJwgP7V3p23dRzPHdiKQwmeqVQHsljNQ1zQxUJpruAOoxiLX6UHEv770YLlNJMbViOkoBB54IpWwKTrJbctf2FtQjZlswf3PH1v2gHS3hrS0pS9RGIWp2dGZQFOefPHodj2PA4276FmBBlKhS0TDfL8CVSVRHYPomBEOCwFXI0nALC5TyS4_NQUBlUx4ro9aPTqOHV9W7G53VzsX7c5NbKrlYU1GPNCXbfwbrxcDoOgrnNEMir_gcpXk"/>
+<div>
+<p class="text-xs text-gray-400">Good Evening,</p>
+<p class="text-sm font-bold">Arjun K.</p>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-dark flex items-center justify-center border border-white/5">
+<span class="material-icons text-sm text-primary">notifications</span>
+</div>
+</div>
+<!-- Mockup Content: Chat Bubble -->
+<div class="space-y-3">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-icons text-white text-xs">auto_awesome</span>
+</div>
+<div class="bg-surface-dark border border-white/5 p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-xs text-gray-300 leading-relaxed shadow-sm">
+                                I noticed you struggled with Quadratic Equations yesterday. Shall we review the discriminant formula again?
+                            </div>
+</div>
+<div class="flex gap-3 flex-row-reverse">
+<div class="bg-primary/20 text-white p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl text-xs border border-primary/20">
+                                Yes, specifically finding real roots.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Features Stack -->
+<section class="px-6 mb-12">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+                    Why ScholarX?
+                </h3>
+<div class="space-y-4">
+<!-- Feature 1 -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-dark border border-white/5 hover:border-primary/30 transition-colors group">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+<span class="material-icons text-primary">psychology</span>
+</div>
+<div>
+<h4 class="font-semibold text-white mb-1">Instant Doubt Solving</h4>
+<p class="text-xs text-gray-400 leading-relaxed">Snap a photo of your math problem and get step-by-step logic, not just answers.</p>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-dark border border-white/5 hover:border-primary/30 transition-colors group">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+<span class="material-icons text-primary">translate</span>
+</div>
+<div>
+<h4 class="font-semibold text-white mb-1">Vernacular Support</h4>
+<p class="text-xs text-gray-400 leading-relaxed">Learn complex concepts in Hinglish, Hindi, Tamil, or 8 other regional languages.</p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-dark border border-white/5 hover:border-primary/30 transition-colors group">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+<span class="material-icons text-primary">school</span>
+</div>
+<div>
+<h4 class="font-semibold text-white mb-1">Exam Prep Mode</h4>
+<p class="text-xs text-gray-400 leading-relaxed">Simulated tests based on last 10 years of CBSE/ICSE board papers.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Stack -->
+<section class="px-6 pb-8">
+<h3 class="text-lg font-bold mb-6 text-center">Simple Pricing</h3>
+<div class="space-y-4">
+<!-- Free Plan -->
+<div class="p-6 rounded-[2rem] bg-surface-dark border border-white/5 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-lg font-bold text-white">Scholar Free</h4>
+<p class="text-xs text-gray-400">For casual learners</p>
+</div>
+<span class="text-2xl font-bold">₹0</span>
+</div>
+<ul class="space-y-2 mb-6">
+<li class="flex items-center gap-2 text-xs text-gray-300">
+<span class="material-icons text-xs text-green-400">check</span> 5 Doubts / day
+                            </li>
+<li class="flex items-center gap-2 text-xs text-gray-300">
+<span class="material-icons text-xs text-green-400">check</span> Basic NCERT Solutions
+                            </li>
+</ul>
+<button class="w-full py-3 rounded-full bg-white/5 text-white text-sm font-medium hover:bg-white/10 transition-colors">Get Started</button>
+</div>
+<!-- Pro Plan -->
+<div class="p-6 rounded-[2rem] bg-[#1a1829] border border-primary/50 relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">POPULAR</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-lg font-bold text-white">Scholar Pro</h4>
+<p class="text-xs text-gray-400">For serious rankers</p>
+</div>
+<div class="text-right">
+<span class="text-2xl font-bold block text-primary">₹499</span>
+<span class="text-[10px] text-gray-500">/month</span>
+</div>
+</div>
+<ul class="space-y-2 mb-6">
+<li class="flex items-center gap-2 text-xs text-gray-300">
+<span class="material-icons text-xs text-primary">check_circle</span> Unlimited AI Chat
+                            </li>
+<li class="flex items-center gap-2 text-xs text-gray-300">
+<span class="material-icons text-xs text-primary">check_circle</span> 1-on-1 Mentor Connect
+                            </li>
+<li class="flex items-center gap-2 text-xs text-gray-300">
+<span class="material-icons text-xs text-primary">check_circle</span> JEE/NEET Foundation
+                            </li>
+</ul>
+<button class="w-full py-3 rounded-full bg-gradient-primary text-white text-sm font-medium shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">Upgrade Now</button>
+</div>
+</div>
+</section>
+<!-- Footer Simple -->
+<footer class="px-6 pb-8 pt-4 text-center">
+<p class="text-[10px] text-gray-600">© 2023 ScholarX Education Pvt Ltd.</p>
+<div class="flex justify-center gap-4 mt-2">
+<a class="text-[10px] text-gray-500 hover:text-primary" href="#">Terms</a>
+<a class="text-[10px] text-gray-500 hover:text-primary" href="#">Privacy</a>
+</div>
+</footer>
+</div>
+<!-- Bottom Navigation Bar (Fixed in Container) -->
+<div class="absolute bottom-0 w-full bg-background-dark/95 backdrop-blur-md border-t border-white/5 pb-5 pt-3 px-6 z-50">
+<div class="flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 transition-colors">
+<span class="material-icons">library_books</span>
+<span class="text-[10px] font-medium">Courses</span>
+</button>
+<!-- Central AI Action Button -->
+<button class="flex flex-col items-center justify-center -mt-8">
+<div class="w-14 h-14 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg shadow-primary/40 border-[4px] border-background-dark">
+<span class="material-icons text-white text-2xl">smart_toy</span>
+</div>
+<span class="text-[10px] font-medium text-white mt-1">AI Tutor</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 transition-colors">
+<span class="material-icons">insights</span>
+<span class="text-[10px] font-medium">Progress</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500 hover:text-gray-300 transition-colors">
+<span class="material-icons">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</div>
+<!-- Home Indicator -->
+<div class="w-32 h-1 bg-white/20 rounded-full mx-auto mt-4"></div>
+</div>
+</div>
+</body></html>

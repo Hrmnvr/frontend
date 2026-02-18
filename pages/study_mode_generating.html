@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Study Mode Generating - ScholarX</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7c70ff",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#0A0A0F", // Adjusted to match specific requirement #0A0A0F
+                        "card-dark": "#16161f",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom gradient text utility */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #7c70ff, #a78bfa);
+        }
+        
+        /* Custom glow for the ring */
+        .ring-glow {
+            box-shadow: 0 0 40px -10px rgba(124, 112, 255, 0.3);
+        }
+
+        /* Progress bar shimmer */
+        .progress-shimmer {
+            background: linear-gradient(90deg, 
+                rgba(124,112,255,1) 0%, 
+                rgba(167,139,250,1) 50%, 
+                rgba(124,112,255,1) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-white min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-hidden">
+<!-- Navigation -->
+<nav class="w-full px-8 py-6 flex justify-between items-center z-10 relative">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="text-white font-bold text-xl">S</span>
+</div>
+<span class="text-xl font-bold tracking-tight">ScholarX</span>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-icons">notifications</span>
+</button>
+<div class="flex items-center gap-3 pl-6 border-l border-white/10">
+<div class="text-right hidden sm:block">
+<p id="genUserName" class="text-sm font-medium">Loading...</p>
+<p id="genUserInfo" class="text-xs text-slate-400"></p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold ring-2 ring-primary/20">
+<span id="genUserInitials" class="material-icons text-xl">person</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex items-center justify-center relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Background Ambient Glows -->
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="w-full max-w-lg z-10 flex flex-col items-center">
+<!-- Animated Generating Ring -->
+<div class="relative w-48 h-48 mb-10 flex items-center justify-center">
+<!-- Outer spinning gradient ring -->
+<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-purple-500 to-transparent p-1 animate-spin-slow ring-glow opacity-80">
+<div class="w-full h-full bg-background-dark rounded-full"></div>
+</div>
+<!-- Inner pulsing core -->
+<div class="absolute w-32 h-32 bg-primary/20 rounded-full animate-pulse flex items-center justify-center backdrop-blur-sm">
+<span class="material-icons text-5xl text-primary drop-shadow-[0_0_15px_rgba(124,112,255,0.8)]">auto_awesome</span>
+</div>
+<!-- Decorative particles -->
+<div class="absolute -top-4 right-0 w-3 h-3 bg-blue-400 rounded-full animate-bounce delay-75"></div>
+<div class="absolute bottom-4 -left-2 w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+</div>
+<!-- Headline -->
+<h1 class="text-4xl md:text-5xl font-bold text-center mb-4 tracking-tight">
+                Generating your notes
+            </h1>
+<p class="text-slate-400 text-center mb-10 font-light">
+                Our AI is synthesizing key concepts from your curriculum.
+            </p>
+<!-- Progress Bar -->
+<div class="w-full mb-12">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-medium text-primary uppercase tracking-wider">Processing</span>
+<span class="text-xl font-bold text-white tabular-nums">33%</span>
+</div>
+<div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full w-1/3 progress-shimmer rounded-full"></div>
+</div>
+</div>
+<!-- Chapter List -->
+<div class="w-full space-y-4 mb-12">
+<!-- Completed Item -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-800/30 border border-white/5 backdrop-blur-sm transition-all">
+<div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+<span class="material-icons text-green-500 text-sm font-bold">check</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-white font-medium truncate">Introduction to Electrostatics</h3>
+<p class="text-xs text-green-400/80 mt-0.5">Completed</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+</div>
+<!-- Active Item -->
+<div class="flex items-center gap-4 p-4 rounded-2xl bg-card-dark border border-primary/30 shadow-[0_0_20px_-5px_rgba(124,112,255,0.15)] relative overflow-hidden group">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 relative">
+<div class="absolute w-full h-full bg-primary/30 rounded-full animate-ping opacity-75"></div>
+<div class="w-2.5 h-2.5 bg-primary rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0 z-10">
+<h3 class="text-white font-medium truncate group-hover:text-primary transition-colors">Electric Charges and Fields</h3>
+<p class="text-xs text-primary/80 mt-0.5 animate-pulse">Analyzing concepts...</p>
+</div>
+</div>
+<!-- Pending Item -->
+<div class="flex items-center gap-4 p-4 rounded-2xl opacity-50 border border-transparent">
+<div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0">
+<span class="material-icons text-slate-500 text-xs">lock</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-slate-400 font-medium truncate">Gauss's Law Applications</h3>
+<p class="text-xs text-slate-500 mt-0.5">Pending</p>
+</div>
+</div>
+<!-- Pending Item 2 -->
+<div class="flex items-center gap-4 p-4 rounded-2xl opacity-40 border border-transparent">
+<div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0">
+<span class="material-icons text-slate-500 text-xs">lock</span>
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-slate-400 font-medium truncate">Capacitance &amp; Dielectrics</h3>
+<p class="text-xs text-slate-500 mt-0.5">Pending</p>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="px-8 py-3.5 rounded-full border border-slate-700 text-slate-400 font-medium hover:border-primary hover:text-primary transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group" disabled="">
+<span class="group-hover:translate-x-1 transition-transform inline-block">Continue studying</span>
+</button>
+<p class="text-xs text-slate-600 mt-4">Please wait while we finish preparing your study material.</p>
+</div>
+</main>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+import { FIREBASE_CONFIG } from '../js/config.js';
+
+const app = initializeApp(FIREBASE_CONFIG);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = 'scholarx_sign_in.html';
+    return;
+  }
+
+  const nameEl = document.getElementById('genUserName');
+  const infoEl = document.getElementById('genUserInfo');
+  const initialsEl = document.getElementById('genUserInitials');
+
+  try {
+    const docSnap = await getDoc(doc(db, 'users', user.uid));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const displayName = data.displayName || user.displayName || 'Student';
+      if (nameEl) nameEl.textContent = displayName;
+      if (infoEl) {
+        const grade = data.grade ? `Class ${data.grade}` : '';
+        const board = data.board ? data.board.toUpperCase() : '';
+        infoEl.textContent = [grade, board].filter(Boolean).join(' \u2022 ');
+      }
+      if (initialsEl && displayName !== 'Student') {
+        initialsEl.textContent = displayName.charAt(0).toUpperCase();
+        initialsEl.classList.remove('material-icons');
+      }
+    } else {
+      if (nameEl) nameEl.textContent = user.displayName || 'Student';
+    }
+  } catch (e) {
+    if (nameEl) nameEl.textContent = user.displayName || 'Student';
+  }
+});
+</script>
+</body></html>

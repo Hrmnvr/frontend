@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ScholarX Sign Up</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Shared Styles -->
+<link rel="stylesheet" href="../styles/shared.css"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7c70ff",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#110f23",
+                        "custom-bg": "#0A0A0F",
+                        "custom-surface": "#111118",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(124, 112, 255, 0.35)',
+                        'input-focus': '0 0 0 2px rgba(124, 112, 255, 0.5), 0 0 15px rgba(124, 112, 255, 0.2)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Utilities for background gradients */
+        .blob-gradient {
+            background: radial-gradient(circle, rgba(124, 112, 255, 0.4) 0%, rgba(124, 112, 255, 0) 70%);
+            filter: blur(80px);
+        }
+    </style>
+</head>
+<body class="bg-custom-bg text-white font-display h-screen w-full overflow-hidden flex">
+<!-- Left Panel: Branding & Visuals (45%) -->
+<div class="hidden lg:flex w-[45%] bg-custom-surface relative flex-col justify-between p-12 overflow-hidden border-r border-white/5">
+<!-- Abstract Background Blobs -->
+<div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] blob-gradient opacity-60 pointer-events-none"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] blob-gradient opacity-40 pointer-events-none" style="background: radial-gradient(circle, rgba(124, 112, 255, 0.3) 0%, rgba(80, 70, 229, 0) 70%);"></div>
+<div class="absolute top-[40%] left-[30%] w-[300px] h-[300px] blob-gradient opacity-30 pointer-events-none"></div>
+<!-- Logo -->
+<div class="relative z-10 flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-glow">
+<span class="material-icons text-white text-xl">school</span>
+</div>
+<span class="text-2xl font-bold tracking-tight text-white">ScholarX</span>
+</div>
+<!-- Main Content -->
+<div class="relative z-10 space-y-8 max-w-lg">
+<h2 class="text-5xl font-bold leading-tight text-white">
+                The AI that teaches the <span class="text-primary">way you learn.</span>
+</h2>
+<div class="space-y-4 pt-4">
+<div class="flex items-center gap-4 group">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-icons text-primary text-sm">check</span>
+</div>
+<span class="text-lg text-gray-300 font-light">Personalized learning paths tailored to you</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-icons text-primary text-sm">check</span>
+</div>
+<span class="text-lg text-gray-300 font-light">24/7 AI Tutor support for instant doubts</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+<span class="material-icons text-primary text-sm">check</span>
+</div>
+<span class="text-lg text-gray-300 font-light">Real-time progress tracking &amp; analytics</span>
+</div>
+</div>
+</div>
+<!-- Footer / Illustration Placeholder -->
+<div class="relative z-10 w-full h-48 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm bg-white/5">
+<img alt="Abstract futuristic digital network visualization" class="w-full h-full object-cover opacity-60 mix-blend-overlay" data-alt="Abstract futuristic digital network visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_bV0ECyBu0V-Qg5YHeGCjq66SsbJe45JE39RXaArGzAytaWbbufr-8I32iqGgUC41QstwYl4rig5SmwxT4xtDaLZUKpc58z5oJzWAeu5V4Y1VSjz3JNzCy2Yr6v2hzGUTGQa2Nv8TsweY0QejnoJiN5RzgQCgLhJkj5Pj7KyOKDpLYPpJtAa1oFnN-WfSegzwdKSPGq7_VJ5MPqVJzAYnsMDq94Sc9XTdbrdC6zCELX5DSop9UCqqlKXWxspyhNuD2tM0-Zfark6I"/>
+<div class="absolute inset-0 bg-gradient-to-t from-custom-surface via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-6">
+<p class="text-sm font-medium text-white/80">Trusted by 10,000+ Students</p>
+<div class="flex -space-x-2 mt-2">
+<img alt="Student portrait" class="w-8 h-8 rounded-full border-2 border-custom-surface" data-alt="Student portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkRKNKtItR_kiqZbUie7JxyhHB2d-biaHaMr2zF6n3USDjcumhWvY1NrNkI0if_UCyir1F6xPDLjmVFIjDeb8NzWgVNO0XzUNfFPzoJ3OjyzfcNJMdfmM2mQ81KBgLdi2TeTgm_2jjciPTY4dUM__zp78MHFUn9pAPJV6nhYPAEDzRakdlVRUvF6-VGPxoF0ZvMNoWEmYaJ-FJCLc4aj5iC1CV4w4tUU9DpJeIrU3_s28KlTMZo_cZutNu2Anl8bF1CeLJskzv5X5K"/>
+<img alt="Student portrait" class="w-8 h-8 rounded-full border-2 border-custom-surface" data-alt="Student portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFgQPo8KFVCojJ7XJ2n1dHHXKCMF_8HzoUy764Sme6RXF-gLN12596Nhntsar36lBGjIYyTVCk2Xd0LL9At5zDvmAnn18x0VnmtwJ0jH9UITXUap7V600NdC-DSg6xxg0GxUWGKVKV7g11aGkDOKZK9wHa5lq2hR0nq9zKslULEwyaqG2ZLKwaUXX-cS8DrZQdno4cRvoq9BxZ7eYMapBX-AQaCaqrB0Pf1ioadQLbOA7CsnliuWilcIy5kBVazE0jO-VrVh3r_mG7"/>
+<img alt="Student portrait" class="w-8 h-8 rounded-full border-2 border-custom-surface" data-alt="Student portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI2b9lIML8ijKg8cMQgZoU04kDmOL3O-15ad0HEO4kvAXHs3ipS9gLxSSy3j6CLBOMnGJ2i2UZIkUI-WIq6cM2dNagfCAboxpNOxE0IsgPuwoL6VIl-wVl0kRwEzxJgS7WkwFT4hHqV0A-1_Eo2fO-UeqUI3X7Nt_ecVY_OBrpFFRDnr7L6Unr0YatEkwVR6titFwA-FIJVN99jsGKn6-ZQIJmIlxCYNriu5_LG8cDnzG_lfndlY10Lh56NwgrZcSDjWErb6H4_6y-"/>
+<div class="w-8 h-8 rounded-full border-2 border-custom-surface bg-primary/20 flex items-center justify-center text-[10px] text-primary font-bold">+2k</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Form (55%) -->
+<div class="w-full lg:w-[55%] h-full bg-custom-bg flex flex-col justify-center items-center p-6 relative">
+<!-- Mobile Logo (Only visible on small screens) -->
+<div class="absolute top-6 left-6 lg:hidden flex items-center gap-2 mb-8">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-icons text-white text-sm">school</span>
+</div>
+<span class="text-xl font-bold text-white">ScholarX</span>
+</div>
+<div class="w-full max-w-[420px] space-y-8 animate-fade-in-up">
+<!-- Header -->
+<div class="text-center space-y-2">
+<h1 class="text-3xl font-bold text-white tracking-tight">Create your account</h1>
+<p class="text-gray-400 font-light text-base">Start your intelligent learning journey today.</p>
+</div>
+<!-- OAuth Buttons -->
+<div class="space-y-3">
+<button id="googleBtn" class="w-full h-12 rounded-full border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 transition-all duration-200 flex items-center justify-center gap-3 text-white font-medium group">
+<img alt="Google Logo" class="w-5 h-5" data-alt="Google G logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm6h12V88-E04gSWlA0Lot7caEQcZUg--DJ9CTXE4qe4u-Ll-dLmzfwlivp1jDvOQtndG0x2MmEP9DOLp-dt18fEoKEF7FLtQIHUZOGmCYvDlWexqXhM-eQvLOaQp8UGmLjcKIaRLnLH4LrDLLc8ChhQ40-2QMN4nA29iCHM9f0KD0ssl43XMdwPB76ELkQLcmWSKH5ewtGLXQQ5tBmp9jEhKqW9aVabrH8DpqR-bvIt7FUML7l0zMHXafXjYwKbwppnGZWSLjzTKQ"/>
+<span>Continue with Google</span>
+</button>
+<button id="githubBtn" class="w-full h-12 rounded-full border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10 transition-all duration-200 flex items-center justify-center gap-3 text-white font-medium group">
+<i class="fab fa-github text-xl text-white group-hover:text-primary transition-colors"></i>
+<span>Continue with GitHub</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-white/10"></div>
+<span class="flex-shrink-0 mx-4 text-gray-500 text-sm font-light">Or register with email</span>
+<div class="flex-grow border-t border-white/10"></div>
+</div>
+<!-- Email Form -->
+<form id="signUpForm" class="space-y-5" novalidate>
+<div class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-sm font-medium text-gray-300 ml-2" for="email">Email Address</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-icons text-gray-500 text-xl group-focus-within:text-primary transition-colors">mail_outline</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3.5 bg-[#1A1A23] border border-white/5 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:shadow-input-focus transition-all duration-300 font-light" id="email" placeholder="student@scholarx.com" type="email"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-sm font-medium text-gray-300 ml-2" for="password">Password</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-icons text-gray-500 text-xl group-focus-within:text-primary transition-colors">lock_outline</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3.5 bg-[#1A1A23] border border-white/5 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:shadow-input-focus transition-all duration-300 font-light" id="password" placeholder="Min. 8 characters" type="password"/>
+</div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex items-center gap-2 px-1">
+<input class="w-4 h-4 rounded border-gray-600 bg-[#1A1A23] text-primary focus:ring-primary focus:ring-offset-custom-bg" id="terms" type="checkbox"/>
+<label class="text-xs text-gray-400" for="terms">I agree to the <a class="text-primary hover:text-primary/80 hover:underline" href="terms_of_service.html">Terms of Service</a> and <a class="text-primary hover:text-primary/80 hover:underline" href="privacy_policy.html">Privacy Policy</a>.</label>
+</div>
+<div id="terms-error"></div>
+</div>
+<button id="submitBtn" type="submit" class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold rounded-full shadow-glow transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+<span>Create Account</span>
+<span class="material-icons text-sm">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Link -->
+<p class="text-center text-gray-400 font-light text-sm">
+                Already have an account?
+                <a class="text-primary font-medium hover:text-primary/80 transition-colors ml-1" href="scholarx_sign_in.html">Sign in</a>
+</p>
+</div>
+</div>
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+  import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+  import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+  import { FIREBASE_CONFIG } from '../js/config.js';
+  import { showToast, setButtonLoading, validateEmail, validatePassword, showFieldError, clearFieldError, setupRealTimeValidation } from '../js/validation.js';
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Redirect if already logged in
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const role = data.role || data.accountType || 'student';
+        if (data.profileCompleted) {
+          window.location.href = role === 'teacher' ? 'teacher_dashboard.html' : 'student_dashboard.html';
+        } else {
+          window.location.href = 'profile_setup.html';
+        }
+      } else {
+        window.location.href = 'account_type_selection.html';
+      }
+    }
+  });
+
+  // --- OAuth ---
+  async function handleAuth(provider) {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      showToast('Account created successfully! Redirecting...', 'success');
+      setTimeout(() => {
+        window.location.href = 'account_type_selection.html';
+      }, 800);
+    } catch (error) {
+      console.error('Auth error:', error);
+      showToast('Sign Up failed: ' + error.message, 'error');
+    }
+  }
+
+  document.getElementById('googleBtn').addEventListener('click', () => {
+    handleAuth(new GoogleAuthProvider());
+  });
+
+  document.getElementById('githubBtn').addEventListener('click', () => {
+    handleAuth(new GithubAuthProvider());
+  });
+
+  // --- Form & Validation ---
+  const form = document.getElementById('signUpForm');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const termsCheckbox = document.getElementById('terms');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // Real-time validation on blur / input
+  setupRealTimeValidation(form, {
+    email: validateEmail,
+    password: validatePassword,
+  });
+
+  // Validate terms checkbox
+  function validateTerms() {
+    const termsErrorContainer = document.getElementById('terms-error');
+    if (!termsCheckbox.checked) {
+      termsErrorContainer.innerHTML = '<div class="field-error"><span class="material-icons" style="font-size:14px">error_outline</span> You must agree to the Terms of Service and Privacy Policy</div>';
+      return 'Terms required';
+    }
+    termsErrorContainer.innerHTML = '';
+    return null;
+  }
+
+  termsCheckbox.addEventListener('change', validateTerms);
+
+  // Submit handler
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Validate all fields
+    const emailError = validateEmail(emailInput.value);
+    const passwordError = validatePassword(passwordInput.value);
+    const termsError = validateTerms();
+
+    if (emailError) showFieldError(emailInput, emailError);
+    else clearFieldError(emailInput);
+
+    if (passwordError) showFieldError(passwordInput, passwordError);
+    else clearFieldError(passwordInput);
+
+    if (emailError || passwordError || termsError) {
+      showToast('Please fix the errors before continuing.', 'error');
+      return;
+    }
+
+    // Loading state
+    setButtonLoading(submitBtn, true, 'Creating Account...');
+
+    try {
+      await createUserWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+      showToast('Account created successfully! Redirecting...', 'success');
+      setTimeout(() => {
+        window.location.href = 'account_type_selection.html';
+      }, 800);
+    } catch (error) {
+      console.error('Sign-up error:', error);
+      let msg = error.message;
+      if (error.code === 'auth/email-already-in-use') {
+        msg = 'An account with this email already exists.';
+        showFieldError(emailInput, msg);
+      } else if (error.code === 'auth/weak-password') {
+        msg = 'Password is too weak. Please choose a stronger one.';
+        showFieldError(passwordInput, msg);
+      }
+      showToast(msg, 'error');
+    } finally {
+      setButtonLoading(submitBtn, false);
+    }
+  });
+</script>
+</body></html>
