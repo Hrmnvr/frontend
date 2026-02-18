@@ -40,19 +40,15 @@ tailwind.config = {
 <button class="lg:hidden p-2 -ml-2 text-gray-500 hover:text-primary" aria-label="Toggle navigation menu" data-sidebar-toggle>
 <span class="material-icons-round">menu</span>
 </button>
-<div class="hidden md:flex items-center w-full max-w-xl mx-auto lg:mx-0">
-<div class="relative w-full group">
-<span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary material-icons-round text-xl pointer-events-none transition-transform group-focus-within:scale-110">auto_awesome</span>
-<input class="w-full pl-12 pr-4 py-3 bg-gray-100 dark:bg-surface-dark/50 border-none rounded-full text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-inner" placeholder="Ask ScholarX AI to summarize a topic..." type="text"/>
-<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
-<span class="text-[10px] bg-white/10 px-2 py-1 rounded text-gray-400 border border-white/5">⌘ K</span>
-</div>
-</div>
+<div class="hidden md:flex items-center gap-3 ml-auto lg:ml-0 lg:mr-auto">
+<button id="aiChatToggle" class="p-2 text-gray-400 hover:text-primary transition-colors" aria-label="AI Chat">
+<span class="material-icons-round">auto_awesome</span>
+</button>
 </div>
 <div class="flex items-center gap-4 lg:gap-6 ml-auto">
-<button class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
+<button id="notificationToggle" class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
 <span class="material-icons-round">notifications_none</span>
-<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+<span id="notificationBadge" class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark hidden"></span>
 </button>
 <div class="flex items-center gap-3 pl-4 border-l border-white/10">
 <div class="text-right hidden sm:block">
@@ -201,6 +197,42 @@ Start Learning
 </div>
 </div>
 
+<!-- AI Chat Sidebar -->
+<div id="aiChatPanel" class="fixed right-0 top-0 h-screen w-96 bg-surface-dark border-l border-white/5 shadow-2xl transform translate-x-full transition-transform duration-300 z-40 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b border-white/5">
+    <h3 class="text-lg font-semibold text-white">ScholarX AI</h3>
+    <button id="aiChatClose" class="p-1 hover:bg-white/10 rounded">
+      <span class="material-icons-round text-gray-400">close</span>
+    </button>
+  </div>
+  <div id="aiChatMessages" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
+  <div class="border-t border-white/5 p-4 space-y-2">
+    <div class="flex gap-2">
+      <input id="aiChatInput" type="text" placeholder="Ask about anything..." class="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm focus:ring-2 focus:ring-primary/50 outline-none"/>
+      <button id="aiChatSend" class="p-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition">
+        <span class="material-icons-round text-sm">send</span>
+      </button>
+    </div>
+    <div class="text-xs text-gray-500">Can search notes, ask questions, analyze documents</div>
+  </div>
+</div>
+
+<!-- Notifications Panel -->
+<div id="notificationPanel" class="fixed right-0 top-0 h-screen w-80 bg-surface-dark border-l border-white/5 shadow-2xl transform translate-x-full transition-transform duration-300 z-40 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b border-white/5">
+    <h3 class="text-lg font-semibold text-white">Notifications</h3>
+    <button id="notificationClose" class="p-1 hover:bg-white/10 rounded">
+      <span class="material-icons-round text-gray-400">close</span>
+    </button>
+  </div>
+  <div id="notificationList" class="flex-1 overflow-y-auto p-4 space-y-2">
+    <div class="text-center text-gray-500 py-8">No notifications yet</div>
+  </div>
+</div>
+
+<!-- Panel Overlay -->
+<div id="panelOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden z-30" onclick="document.getElementById('aiChatPanel').classList.add('translate-x-full'); document.getElementById('notificationPanel').classList.add('translate-x-full'); this.classList.add('hidden');"></div>
+
 <script type="module">
 import { initAuth, loadUserProfile, getGreeting, apiCall, auth, db } from '../js/auth.js';
 import { renderSidebar, setupProfileDropdown } from '../js/sidebar.js';
@@ -342,5 +374,91 @@ if (joinSubmit && joinInput) {
     if (e.key === 'Enter') joinSubmit.click();
   });
 }
+
+// ============================================================
+// AI CHAT SIDEBAR
+// ============================================================
+const aiChatToggle = document.getElementById('aiChatToggle');
+const aiChatPanel = document.getElementById('aiChatPanel');
+const aiChatClose = document.getElementById('aiChatClose');
+const aiChatInput = document.getElementById('aiChatInput');
+const aiChatSend = document.getElementById('aiChatSend');
+const aiChatMessages = document.getElementById('aiChatMessages');
+const panelOverlay = document.getElementById('panelOverlay');
+
+aiChatToggle?.addEventListener('click', () => {
+  aiChatPanel.classList.remove('translate-x-full');
+  panelOverlay.classList.remove('hidden');
+  aiChatInput.focus();
+});
+
+aiChatClose?.addEventListener('click', () => {
+  aiChatPanel.classList.add('translate-x-full');
+  panelOverlay.classList.add('hidden');
+});
+
+aiChatSend?.addEventListener('click', async () => {
+  const msg = aiChatInput.value.trim();
+  if (!msg) return;
+
+  aiChatMessages.innerHTML += `<div class="flex justify-end"><div class="bg-primary rounded-lg p-3 max-w-xs"><p class="text-white text-sm">${msg}</p></div></div>`;
+  aiChatInput.value = '';
+
+  try {
+    const res = await apiCall('/tutor/chat', {
+      method: 'POST',
+      body: JSON.stringify({ message: msg, context: 'library' })
+    });
+    aiChatMessages.innerHTML += `<div class="flex justify-start"><div class="bg-white/10 rounded-lg p-3 max-w-xs"><p class="text-white text-sm">${res.response || 'Got response'}</p></div></div>`;
+    aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+  } catch (err) {
+    console.error('AI chat error:', err);
+  }
+});
+
+aiChatInput?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    aiChatSend.click();
+  }
+});
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+const notificationToggle = document.getElementById('notificationToggle');
+const notificationPanel = document.getElementById('notificationPanel');
+const notificationClose = document.getElementById('notificationClose');
+const notificationList = document.getElementById('notificationList');
+const notificationBadge = document.getElementById('notificationBadge');
+
+notificationToggle?.addEventListener('click', () => {
+  notificationPanel.classList.remove('translate-x-full');
+  panelOverlay.classList.remove('hidden');
+  notificationBadge.classList.add('hidden');
+});
+
+notificationClose?.addEventListener('click', () => {
+  notificationPanel.classList.add('translate-x-full');
+  panelOverlay.classList.add('hidden');
+});
+
+// Load notifications from Firestore
+async function loadNotifications() {
+  try {
+    const notifs = await getDocs(query(collection(db, 'notifications'), where('uid', '==', auth.currentUser.uid)));
+    if (notifs.size > 0) {
+      notificationBadge.classList.remove('hidden');
+      notificationList.innerHTML = notifs.docs.map(doc => {
+        const data = doc.data();
+        return `<div class="bg-white/5 p-3 rounded border border-white/10"><p class="text-white text-sm font-medium">${data.title}</p><p class="text-gray-400 text-xs mt-1">${data.message}</p></div>`;
+      }).join('');
+    }
+  } catch (err) {
+    console.error('Notifications error:', err);
+  }
+}
+
+loadNotifications();
 </script>
 </body></html>

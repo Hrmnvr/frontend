@@ -47,9 +47,9 @@ tailwind.config = {
       <p class="text-xs text-gray-500 dark:text-gray-400" id="welcomeText">Welcome back! Here's your overview.</p>
     </div>
     <div class="flex items-center gap-4 lg:gap-6 ml-auto">
-      <button class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
+      <button id="notificationToggle" class="relative p-2 text-gray-400 hover:text-white transition-colors" aria-label="Notifications">
         <span class="material-icons-round">notifications_none</span>
-        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark"></span>
+        <span id="notificationBadge" class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-background-dark hidden"></span>
       </button>
       <div class="flex items-center gap-3 pl-4 border-l border-white/10" id="profileDropdownTrigger">
         <div class="text-right hidden sm:block">
@@ -297,6 +297,17 @@ async function loadDashboard() {
 window.showCreateClassroom = function() {
   showToast('Create Classroom feature is coming soon to the UI!', 'info');
 };
+
+// Notifications Panel
+const notificationToggle = document.getElementById('notificationToggle');
+const notificationBadge = document.getElementById('notificationBadge');
+if (notificationToggle) {
+  notificationToggle.addEventListener('click', () => showToast('Notifications feature coming soon', 'info'));
+}
 </script>
+
+<!-- Notifications Panel (stub for future) -->
+<div id="notificationPanel" class="hidden">Notifications coming soon</div>
+
 </body>
 </html>
